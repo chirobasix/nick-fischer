@@ -86,7 +86,7 @@ const stats = [
       </div>
 
       <aside class="hero-card" aria-label="At a glance">
-        <div class="hero-portrait" aria-hidden="true">NF</div>
+        <img class="hero-portrait" src="/img/nick-fischer.jpg" width="84" height="84" alt="Nick Fischer" loading="eager" decoding="async" />
         <p class="hero-card-name">Nick Fischer</p>
         <p class="hero-card-role">Founder &amp; Chiropractic Marketing Consultant</p>
         <ul class="hero-card-list">
@@ -179,10 +179,8 @@ const stats = [
   }
   .hero-portrait {
     width: 84px; height: 84px; border-radius: 999px;
-    display: grid; place-items: center;
-    font-family: var(--font-display); font-weight: 800; font-size: 1.75rem;
-    background: linear-gradient(135deg, var(--color-accent), var(--color-gold));
-    color: #fff; margin-bottom: 1.25rem;
+    object-fit: cover; display: block;
+    border: 2px solid var(--color-gold); margin-bottom: 1.25rem;
   }
   .hero-card-name { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; margin: 0; }
   .hero-card-role { color: var(--color-n-300); margin: 0.25rem 0 1.25rem; font-size: 0.95rem; }

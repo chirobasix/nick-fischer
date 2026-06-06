@@ -18,11 +18,12 @@ const jsonLd = [
   buildWebPage({ url: abs('/podcast/'), name: title, description }),
 ];
 
-// Add real subscribe links when available.
 const platforms = [
-  { label: 'Apple Podcasts', icon: 'lucide:podcast', href: '#' },
-  { label: 'Spotify', icon: 'lucide:music', href: '#' },
-  { label: 'YouTube', icon: 'lucide:youtube', href: '#' },
+  { label: 'Apple Podcasts', icon: 'lucide:podcast', href: 'https://podcasts.apple.com/us/podcast/chiropractic-practice-success-chirobasix/id1578322060' },
+  { label: 'Spotify', icon: 'lucide:music', href: 'https://open.spotify.com/show/0iUxEZ3Sajsv8csLsHAD1x' },
+  { label: 'YouTube', icon: 'lucide:youtube', href: 'https://www.youtube.com/@CHIROBASIX' },
+  { label: 'Amazon Music', icon: 'lucide:audio-lines', href: 'https://music.amazon.com/podcasts/chiropractic-practice-success' },
+  { label: 'RSS', icon: 'lucide:rss', href: 'https://media.rss.com/chiropractic-practice-success-chirobasix/feed.xml' },
 ];
 
 const themes = [
@@ -32,7 +33,7 @@ const themes = [
   'Lessons from practices that grew (and ones that stalled)',
 ];
 ---
-<PageLayout title={title} description={description} jsonLd={jsonLd}>
+<PageLayout title={title} description={description} jsonLd={jsonLd} preloadImage="/img/podcast-cover.jpg">
   <section class="pod-hero">
     <div class="container-page pod-grid">
       <div>
@@ -50,13 +51,17 @@ const themes = [
             </a>
           ))}
         </div>
-        <p class="pod-note">Subscribe links are being finalized — check back shortly.</p>
       </div>
 
-      <div class="pod-art" aria-hidden="true">
-        <Icon name="lucide:mic" width="64" height="64" />
-        <span>CPS</span>
-      </div>
+      <img
+        class="pod-art"
+        src="/img/podcast-cover.jpg"
+        width="1000"
+        height="1000"
+        alt="Chiropractic Practice Success — podcast cover art"
+        fetchpriority="high"
+        decoding="async"
+      />
     </div>
   </section>
 
@@ -96,12 +101,10 @@ const themes = [
   .pod-note { color: var(--color-n-300); font-size: 0.85rem; margin-top: 1rem; }
 
   .pod-art {
-    aspect-ratio: 1; border-radius: var(--radius-xl);
-    background: linear-gradient(135deg, var(--color-accent), var(--color-gold));
-    display: grid; place-items: center; gap: 0.5rem; color: #fff;
-    box-shadow: var(--shadow-lg); position: relative;
+    width: 100%; height: auto; aspect-ratio: 1;
+    border-radius: var(--radius-xl); object-fit: cover;
+    box-shadow: var(--shadow-lg); display: block;
   }
-  .pod-art span { font-family: var(--font-display); font-weight: 800; font-size: 2rem; letter-spacing: 0.1em; }
 
   .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
   .section-head { max-width: 40ch; margin-bottom: 2rem; }

@@ -19,6 +19,9 @@ const BRAND = 'Nick Fischer';
 const PERSON_SAME_AS = [
   'https://www.linkedin.com/in/nfischer83/',
   'https://x.com/nick_fisch_er',
+  'https://www.instagram.com/nick.fisch.er',
+  'https://www.facebook.com/nfischer83',
+  'https://www.amazon.com/stores/Nick-Fischer/author/B09VPN4W6S',
   'https://chirobasix.com/about/nick-fischer/',
 ];
 
@@ -86,6 +89,7 @@ export function buildOrganization() {
     description:
       'A marketing agency built exclusively for chiropractors, helping practices grow with proven patient-generation systems.',
     founder: { '@id': PERSON_ID },
+    sameAs: ['https://www.youtube.com/@CHIROBASIX'],
   };
 }
 
@@ -153,13 +157,24 @@ export function buildPodcastSeries(input?: { url?: string }) {
   return {
     '@type': 'PodcastSeries',
     '@id': PODCAST_ID,
-    name: 'The Chiropractic Practice Success Podcast',
+    // Canonical show name (matches Apple/Spotify/RSS); the descriptive long form
+    // the site uses in copy is carried as alternateName.
+    name: 'Chiropractic Practice Success',
+    alternateName: 'The Chiropractic Practice Success Podcast',
     description:
-      'Conversations and strategies to help chiropractors grow successful, profitable practices.',
+      'A podcast for chiropractors who want to grow their practice — chiropractic marketing strategies, tactics, and programs that help top DCs build massively successful practices. Hosted by Nick Fischer.',
     url: input?.url ?? abs('/podcast/'),
+    image: abs('/img/podcast-cover.jpg'),
+    webFeed: 'https://media.rss.com/chiropractic-practice-success-chirobasix/feed.xml',
     author: { '@id': PERSON_ID },
     publisher: { '@id': PERSON_ID },
     inLanguage: 'en-US',
+    // Off-platform show pages — corroborate the podcast entity for the KG.
+    sameAs: [
+      'https://podcasts.apple.com/us/podcast/chiropractic-practice-success-chirobasix/id1578322060',
+      'https://open.spotify.com/show/0iUxEZ3Sajsv8csLsHAD1x',
+      'https://music.amazon.com/podcasts/chiropractic-practice-success',
+    ],
   };
 }
 
