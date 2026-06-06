@@ -69,14 +69,14 @@ on push to `main`). So:
 - Philosophy: "Marketing is a system, not a campaign."
 - Socials: LinkedIn `nfischer83`, X `@nick_fisch_er`. Agency: chirobasix.com.
 
-## Domain (INTERIM — Cloudflare Pages URL)
+## Domain
 
-Canonical host is `https://nick-fischer.pages.dev` (the live Cloudflare Pages
-URL). **`nickfischer.com` is NOT ours** — do not reintroduce it. To change to a
-real owned domain later: set `PUBLIC_SITE_URL` in the deploy workflow (one
-place), or update the fallback in `astro.config.mjs` + `src/lib/seo.ts` +
-`src/layouts/BaseLayout.astro` + `public/robots.txt` + `public/llms.txt`, and the
-3 assertions in `src/lib/seo.test.ts`.
+Production domain is **`https://nickfischer.me`** (custom domain on the Cloudflare
+Pages project `nick-fischer`). It's set as `PUBLIC_SITE_URL` in the deploy workflow
+and as the fallback in `astro.config.mjs` + `src/lib/seo.ts` +
+`src/layouts/BaseLayout.astro` + `public/robots.txt` + `public/llms.txt`, with
+matching assertions in `src/lib/seo.test.ts`. The site also remains reachable at
+`nick-fischer.pages.dev` (canonicals point to nickfischer.me).
 
 ## Cloudflare deploy
 

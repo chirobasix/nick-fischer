@@ -9,10 +9,10 @@ import tailwindcss from '@tailwindcss/vite';
 // intended live domain so a missing env var still ships correct canonicals +
 // JSON-LD @id values + sitemap URLs.
 //
-// INTERIM canonical: the Cloudflare Pages URL. nickfischer.com is NOT ours, so
-// the live .pages.dev host is the canonical for now. Swap this one string (or
-// set PUBLIC_SITE_URL in the deploy workflow) when a real owned domain is chosen.
-const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://nick-fischer.pages.dev';
+// Production canonical host. PUBLIC_SITE_URL overrides at build time (e.g. preview
+// branches); this fallback is the live domain so a missing env var still ships
+// correct canonicals + JSON-LD @id values + sitemap URLs.
+const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://nickfischer.me';
 
 // https://astro.build/config
 export default defineConfig({
