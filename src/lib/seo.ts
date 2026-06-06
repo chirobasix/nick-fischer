@@ -59,7 +59,7 @@ export function buildPerson() {
     image: abs('/img/nick-fischer.jpg'),
     jobTitle: 'Founder & Chiropractic Marketing Consultant',
     description:
-      'Digital marketer, founder of the chiropractic marketing agency CHIROBASIX, author of The Chiropractor\'s Marketing Playbook, and host of The Chiropractic Practice Success Podcast.',
+      'Founder of CHIROBASIX, chiropractic marketing consultant, author of The Chiropractor\'s Marketing Playbook, and host of the Chiropractic Practice Success podcast.',
     worksFor: { '@id': ORG_ID },
     founder: { '@id': ORG_ID },
     alumniOf: {
@@ -75,6 +75,9 @@ export function buildPerson() {
       'Patient Generation',
       'Practice Growth',
     ],
+    knowsLanguage: 'en-US',
+    // The page Google should treat as the entity's home (the bio/about page).
+    mainEntityOfPage: abs('/about/'),
     sameAs: PERSON_SAME_AS,
   };
 }
@@ -86,6 +89,7 @@ export function buildOrganization() {
     '@id': ORG_ID,
     name: 'CHIROBASIX',
     url: 'https://chirobasix.com',
+    logo: abs('/img/chirobasix-logo.png'),
     description:
       'A marketing agency built exclusively for chiropractors, helping practices grow with proven patient-generation systems.',
     founder: { '@id': PERSON_ID },
@@ -169,6 +173,7 @@ export function buildPodcastSeries(input?: { url?: string }) {
     author: { '@id': PERSON_ID },
     publisher: { '@id': PERSON_ID },
     inLanguage: 'en-US',
+    genre: ['Business', 'Marketing', 'Entrepreneurship'],
     // Off-platform show pages — corroborate the podcast entity for the KG.
     sameAs: [
       'https://podcasts.apple.com/us/podcast/chiropractic-practice-success-chirobasix/id1578322060',

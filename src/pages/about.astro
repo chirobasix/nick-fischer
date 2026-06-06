@@ -3,19 +3,50 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 import {
   abs, withBrand,
-  buildPerson, buildOrganization, buildWebSite, buildProfilePage,
+  buildPerson, buildOrganization, buildWebSite, buildProfilePage, buildFaqPage,
 } from '../lib/seo';
 
 const title = withBrand('About Nick Fischer');
 const description =
   'Nick Fischer is the founder of CHIROBASIX, a marketing consultant with 10+ years of experience, author, podcast host, and national speaker focused on helping chiropractors grow.';
 
+// Entity-defining Q&A — feeds Google's understanding of "Nick Fischer" and is
+// prime fodder for AI answer engines. All answers are factual.
+const faqs = [
+  {
+    question: 'Who is Nick Fischer?',
+    answer:
+      'Nick Fischer is the founder of CHIROBASIX, a chiropractic marketing consultant, author of The Chiropractor\'s Marketing Playbook, and host of the Chiropractic Practice Success podcast. He helps chiropractors across the country grow their practices with marketing built as a system.',
+  },
+  {
+    question: 'What is CHIROBASIX?',
+    answer:
+      'CHIROBASIX is a marketing agency Nick Fischer founded exclusively for chiropractors, helping practices grow with proven patient-generation systems rather than one-off campaigns.',
+  },
+  {
+    question: 'What does Nick Fischer do?',
+    answer:
+      'He helps chiropractors dominate online — pairing data-driven strategy with creative that converts across local SEO, paid advertising, reputation, and CRM automation, all working together as one system.',
+  },
+  {
+    question: 'What book did Nick Fischer write?',
+    answer:
+      'The Chiropractor\'s Marketing Playbook — a step-by-step system for turning a chiropractic practice into a patient magnet.',
+  },
+  {
+    question: 'Where can I listen to Nick Fischer\'s podcast?',
+    answer:
+      'Nick hosts the Chiropractic Practice Success podcast, available on Apple Podcasts, Spotify, YouTube, and Amazon Music.',
+  },
+];
+
 const jsonLd = [
   buildPerson(),
   buildOrganization(),
   buildWebSite(),
   buildProfilePage({ url: abs('/about/'), name: 'About Nick Fischer', description }),
-];
+  buildFaqPage(faqs),
+].filter(Boolean) as object[];
 
 const timeline = [
   { when: 'In college', what: 'Started building websites for local businesses — the first taste of marketing that moves the needle.' },
@@ -71,6 +102,7 @@ const credentials = [
       </div>
 
       <aside class="cred-card">
+        <img class="cred-photo" src="/img/nick-fischer.jpg" width="96" height="96" alt="Nick Fischer" loading="lazy" decoding="async" />
         <h3>Credentials</h3>
         <ul>
           {credentials.map((c) => (
@@ -92,6 +124,20 @@ const credentials = [
       </div>
     </div>
   </section>
+
+  <section class="section section-faq">
+    <div class="container-page faq">
+      <h2 class="h-display">Frequently asked about Nick Fischer</h2>
+      <dl>
+        {faqs.map((f) => (
+          <div class="faq-item" data-reveal>
+            <dt>{f.question}</dt>
+            <dd>{f.answer}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
 </PageLayout>
 
 <style>
@@ -105,6 +151,7 @@ const credentials = [
   .prose-block a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
 
   .cred-card { background: var(--color-n-50); border: 1px solid var(--color-n-200); border-radius: var(--radius-lg); padding: 1.75rem; position: sticky; top: 88px; }
+  .cred-photo { width: 96px; height: 96px; border-radius: 999px; object-fit: cover; border: 3px solid var(--color-gold); display: block; margin: 0 0 1.25rem; }
   .cred-card h3 { font-family: var(--font-display); margin: 0 0 1rem; font-size: 1.15rem; }
   .cred-card ul { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0.85rem; }
   .cred-card li { display: flex; gap: 0.6rem; align-items: start; color: var(--color-n-700); font-size: 0.95rem; }
@@ -115,6 +162,13 @@ const credentials = [
   .t-item { border-top: 3px solid var(--color-accent); padding-top: 1rem; }
   .t-when { font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); }
   .t-what { color: var(--color-n-600); margin: 0.5rem 0 0; font-size: 0.95rem; }
+
+  .section-faq { background: var(--color-n-50); border-top: 1px solid var(--color-n-100); }
+  .faq { max-width: 60rem; }
+  .faq h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0 0 1.5rem; }
+  .faq-item { border-top: 1px solid var(--color-n-200); padding: 1.25rem 0; }
+  .faq-item dt { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--color-ink); }
+  .faq-item dd { margin: 0.5rem 0 0; color: var(--color-n-600); }
 
   @media (max-width: 900px) {
     .about-grid { grid-template-columns: 1fr; }
