@@ -29,7 +29,7 @@ describe('withBrand', () => {
 
 describe('abs', () => {
   it('produces absolute URLs with a trailing path', () => {
-    expect(abs('/book/')).toBe('https://nickfischer.com/book/');
+    expect(abs('/book/')).toBe('https://nick-fischer.pages.dev/book/');
   });
 });
 
@@ -98,8 +98,8 @@ describe('buildBreadcrumbList', () => {
   it('emits positioned ListItems with absolute URLs', () => {
     const bc = buildBreadcrumbList('/podcast/') as Record<string, any>;
     expect(bc['@type']).toBe('BreadcrumbList');
-    expect(bc.itemListElement[0].item).toBe('https://nickfischer.com/');
-    expect(bc.itemListElement[1].item).toBe('https://nickfischer.com/podcast/');
+    expect(bc.itemListElement[0].item).toBe('https://nick-fischer.pages.dev/');
+    expect(bc.itemListElement[1].item).toBe('https://nick-fischer.pages.dev/podcast/');
   });
 });
 

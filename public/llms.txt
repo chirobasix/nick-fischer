@@ -14,11 +14,11 @@ experience. His core belief: marketing is a system, not a campaign.
 
 ## Key pages
 
-- [About Nick Fischer](https://nickfischer.com/about/): Full bio, background, and philosophy.
-- [Speaking](https://nickfischer.com/speaking/): Keynotes and topics for chiropractic events.
-- [Podcast](https://nickfischer.com/podcast/): The Chiropractic Practice Success Podcast.
-- [Book](https://nickfischer.com/book/): The Chiropractor's Marketing Playbook.
-- [Contact](https://nickfischer.com/contact/): Booking, speaking, and media inquiries.
+- [About Nick Fischer](https://nick-fischer.pages.dev/about/): Full bio, background, and philosophy.
+- [Speaking](https://nick-fischer.pages.dev/speaking/): Keynotes and topics for chiropractic events.
+- [Podcast](https://nick-fischer.pages.dev/podcast/): The Chiropractic Practice Success Podcast.
+- [Book](https://nick-fischer.pages.dev/book/): The Chiropractor's Marketing Playbook.
+- [Contact](https://nick-fischer.pages.dev/contact/): Booking, speaking, and media inquiries.
 
 ## Focus areas
 

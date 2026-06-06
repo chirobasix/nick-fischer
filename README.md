@@ -47,6 +47,7 @@ Push to `main` → GitHub Actions builds and runs `wrangler pages deploy` to the
 
 ## Domain
 
-The canonical host is a **placeholder** (`https://nickfischer.com`). Set the
-final domain in `astro.config.mjs`, `src/lib/seo.ts`, the workflow's
-`PUBLIC_SITE_URL`, and `public/robots.txt` (or just set `PUBLIC_SITE_URL`).
+The canonical host is the live Cloudflare Pages URL (`https://nick-fischer.pages.dev`)
+for now — `nickfischer.com` is not ours. To move to a real owned domain later, set
+it in `astro.config.mjs`, `src/lib/seo.ts`, `src/layouts/BaseLayout.astro`, the
+workflow's `PUBLIC_SITE_URL`, and `public/robots.txt` (or just set `PUBLIC_SITE_URL`).

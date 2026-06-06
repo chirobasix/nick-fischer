@@ -1,10 +1,11 @@
 import { breadcrumbsForPath } from './routes';
 
-// Production canonical. PUBLIC_SITE_URL overrides at build time; the fallback
-// is the intended live domain so a missing env var still ships correct
-// canonicals + JSON-LD @id values + sitemap URLs.
-// PLACEHOLDER domain — see CLAUDE.md. Change in ONE place (here + astro.config).
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://nickfischer.com';
+// Canonical host. PUBLIC_SITE_URL overrides at build time; the fallback is the
+// live Cloudflare Pages URL so a missing env var still ships correct canonicals
+// + JSON-LD @id values + sitemap URLs.
+// INTERIM: nickfischer.com is NOT ours — using the .pages.dev host for now.
+// Change in ONE place (here + astro.config + BaseLayout) when an owned domain lands.
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://nick-fischer.pages.dev';
 
 export function abs(path: string): string {
   return new URL(path, SITE_URL).toString();

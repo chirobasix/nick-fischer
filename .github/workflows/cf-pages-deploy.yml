@@ -8,8 +8,9 @@ name: Deploy to Cloudflare Pages
 #   CLOUDFLARE_API_TOKEN   — same token used by chirobasix-website works here
 #   CLOUDFLARE_ACCOUNT_ID  — same account ID
 #
-# Once the final domain is chosen, set PUBLIC_SITE_URL below to it (e.g.
-# https://nickfischer.com) so canonicals/sitemap/JSON-LD use the real host.
+# PUBLIC_SITE_URL is the canonical host. It's the Cloudflare Pages URL for now
+# (nickfischer.com is NOT ours). Change it here once a real owned domain lands,
+# so canonicals/sitemap/JSON-LD use that host.
 
 on:
   push:
@@ -44,7 +45,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          PUBLIC_SITE_URL: https://nickfischer.com
+          PUBLIC_SITE_URL: https://nick-fischer.pages.dev
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3

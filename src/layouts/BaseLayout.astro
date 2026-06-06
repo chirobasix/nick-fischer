@@ -16,9 +16,10 @@ interface Props {
   preloadImage?: string;
 }
 
-// Production canonical. PUBLIC_SITE_URL overrides at build time; fallback is the
-// intended live domain so a missing env var still ships correct canonicals.
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://nickfischer.com';
+// Canonical host. PUBLIC_SITE_URL overrides at build time; fallback is the live
+// Cloudflare Pages URL (nickfischer.com is not ours) so a missing env var still
+// ships correct canonicals.
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://nick-fischer.pages.dev';
 
 const {
   title,
