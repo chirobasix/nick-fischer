@@ -1,0 +1,94 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildWebPage,
+} from '../lib/seo';
+
+const title = withBrand('Contact Nick Fischer');
+const description =
+  'Get in touch with Nick Fischer for speaking engagements, podcast guesting, media requests, or working with CHIROBASIX on your chiropractic practice marketing.';
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildWebPage({ url: abs('/contact/'), name: title, description }),
+];
+
+const reasons = [
+  { icon: 'lucide:presentation', title: 'Speaking', body: 'Keynotes and workshops for your chiropractic event.' },
+  { icon: 'lucide:mic', title: 'Podcast', body: 'Guest on the show, or have me on yours.' },
+  { icon: 'lucide:rocket', title: 'Agency', body: 'Grow your practice with CHIROBASIX.', href: 'https://chirobasix.com', external: true },
+];
+
+// No backend yet — a mailto keeps the page fully static and zero-JS. Swap for a
+// form action (e.g. a serverless endpoint / form service) when ready.
+const EMAIL = 'hello@chirobasix.com';
+---
+<PageLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="container-page">
+      <p class="eyebrow">Contact</p>
+      <h1 class="h-display page-title">Let's talk growth.</h1>
+      <p class="lead page-dek">
+        Speaking, podcasting, media, or marketing your practice — tell me what you're
+        working on and I'll get back to you fast.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page contact-grid">
+      <div class="reasons">
+        {reasons.map((r) => (
+          <a class="card reason" href={r.href ?? `mailto:${EMAIL}`} {...(r.external ? { target: '_blank', rel: 'noopener' } : {})}>
+            <span class="reason-icon"><Icon name={r.icon} width="22" height="22" /></span>
+            <div>
+              <h3>{r.title}</h3>
+              <p>{r.body}</p>
+            </div>
+            <Icon name="lucide:arrow-up-right" width="18" height="18" />
+          </a>
+        ))}
+      </div>
+
+      <aside class="contact-card">
+        <h2 class="h-display">Reach out</h2>
+        <p>The fastest way to get a response is email:</p>
+        <a class="btn btn-primary contact-email" href={`mailto:${EMAIL}?subject=Hello%20Nick`}>
+          <Icon name="lucide:mail" width="18" height="18" /> {EMAIL}
+        </a>
+        <div class="contact-social">
+          <a href="https://www.linkedin.com/in/nfischer83/" rel="me noopener" target="_blank" aria-label="LinkedIn"><Icon name="lucide:linkedin" width="20" height="20" /></a>
+          <a href="https://x.com/nick_fisch_er" rel="me noopener" target="_blank" aria-label="X (Twitter)"><Icon name="lucide:twitter" width="20" height="20" /></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2rem; }
+  .page-title { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0.5rem 0 0; }
+  .page-dek { margin-top: 1.25rem; max-width: 56ch; }
+
+  .contact-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; align-items: start; }
+  .reasons { display: grid; gap: 1rem; }
+  .reason { display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem; }
+  .reason-icon { display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: var(--radius-md); background: var(--color-accent-100); color: var(--color-accent-700); flex: none; }
+  .reason h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0; }
+  .reason p { margin: 0.2rem 0 0; color: var(--color-n-600); font-size: 0.95rem; }
+  .reason > [data-icon] { margin-left: auto; color: var(--color-n-400); }
+
+  .contact-card { background: var(--color-navy); color: #fff; border-radius: var(--radius-lg); padding: 2rem; }
+  .contact-card h2 { color: #fff; font-size: 1.4rem; margin: 0 0 0.5rem; }
+  .contact-card p { color: var(--color-n-300); margin: 0 0 1.25rem; }
+  .contact-email { width: 100%; justify-content: center; word-break: break-all; }
+  .contact-social { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+  .contact-social a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 999px; background: rgba(255,255,255,.1); color: #fff; transition: background var(--duration-base) var(--ease-out); }
+  .contact-social a:hover { background: var(--color-accent); }
+
+  @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
+</style>

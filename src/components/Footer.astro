@@ -1,0 +1,90 @@
+---
+import { Icon } from 'astro-icon/components';
+const year = new Date().getFullYear();
+const socials = [
+  { href: 'https://www.linkedin.com/in/nfischer83/', label: 'LinkedIn', icon: 'lucide:linkedin' },
+  { href: 'https://x.com/nick_fisch_er', label: 'X (Twitter)', icon: 'lucide:twitter' },
+  { href: 'https://chirobasix.com', label: 'CHIROBASIX', icon: 'lucide:external-link' },
+];
+---
+<footer class="site-footer">
+  <div class="container-page foot">
+    <div class="foot-brand">
+      <a href="/" class="brand" aria-label="Nick Fischer — home">
+        <img src="/favicon.svg" alt="" width="36" height="36" />
+        <span>Nick Fischer</span>
+      </a>
+      <p class="foot-tag">
+        Helping chiropractors across the country dominate online so they can help more patients.
+      </p>
+    </div>
+
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/speaking/">Speaking</a>
+      <a href="/podcast/">Podcast</a>
+      <a href="/book/">Book</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+
+    <div class="foot-social">
+      {socials.map((s) => (
+        <a href={s.href} rel="me noopener" target="_blank" aria-label={s.label}>
+          <Icon name={s.icon} width="20" height="20" />
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="container-page foot-legal">
+    <p>&copy; {year} Nick Fischer. All rights reserved.</p>
+    <p>Founder of <a href="https://chirobasix.com" rel="noopener" target="_blank">CHIROBASIX</a>.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-navy);
+    color: var(--color-n-200);
+    padding-block: 3.5rem 1.5rem;
+    margin-top: 2rem;
+  }
+  .foot {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr auto;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .brand {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--font-display); font-weight: 800; font-size: 1.15rem;
+    color: #fff;
+  }
+  .brand img { border-radius: 8px; }
+  .foot-tag { margin: 1rem 0 0; max-width: 34ch; color: var(--color-n-300); font-size: 0.95rem; }
+
+  .foot-nav { display: flex; flex-direction: column; gap: 0.75rem; }
+  .foot-nav a { color: var(--color-n-200); font-size: 0.95rem; }
+  .foot-nav a:hover { color: #fff; }
+
+  .foot-social { display: flex; gap: 0.75rem; }
+  .foot-social a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 999px;
+    background: rgba(255,255,255,.08); color: #fff;
+    transition: background var(--duration-base) var(--ease-out);
+  }
+  .foot-social a:hover { background: var(--color-accent); }
+
+  .foot-legal {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+    margin-top: 2.5rem; padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,.12);
+    font-size: 0.85rem; color: var(--color-n-300);
+  }
+  .foot-legal a { color: var(--color-n-200); text-decoration: underline; }
+
+  @media (max-width: 720px) {
+    .foot { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>

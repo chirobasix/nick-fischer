@@ -1,0 +1,54 @@
+name: Deploy to Cloudflare Pages
+
+# Runs on every push to main. Builds the Astro site and deploys to the
+# direct-upload CF Pages project (nick-fischer). The project is auto-created
+# on the first deploy if it doesn't exist yet.
+#
+# Required repo secrets (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   — same token used by chirobasix-website works here
+#   CLOUDFLARE_ACCOUNT_ID  — same account ID
+#
+# Once the final domain is chosen, set PUBLIC_SITE_URL below to it (e.g.
+# https://nickfischer.com) so canonicals/sitemap/JSON-LD use the real host.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Cancel any in-progress deploy if a newer commit lands
+concurrency:
+  group: cf-pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          PUBLIC_SITE_URL: https://nickfischer.com
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ./dist --project-name nick-fischer --branch main --commit-dirty=true

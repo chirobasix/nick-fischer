@@ -1,0 +1,6 @@
+# Cloudflare Pages project config. Pages auto-detects this file at the repo
+# root. The direct-upload project (name below) is created automatically on the
+# first `wrangler pages deploy` from CI — no manual console step required.
+name = "nick-fischer"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-05-26"

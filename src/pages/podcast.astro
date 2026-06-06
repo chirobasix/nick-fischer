@@ -1,0 +1,123 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildPodcastSeries, buildWebPage,
+} from '../lib/seo';
+
+const title = withBrand('The Chiropractic Practice Success Podcast');
+const description =
+  'The Chiropractic Practice Success Podcast with Nick Fischer — strategies, interviews, and real talk on marketing, patient generation, and building a thriving chiropractic practice.';
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildPodcastSeries({ url: abs('/podcast/') }),
+  buildWebPage({ url: abs('/podcast/'), name: title, description }),
+];
+
+// Add real subscribe links when available.
+const platforms = [
+  { label: 'Apple Podcasts', icon: 'lucide:podcast', href: '#' },
+  { label: 'Spotify', icon: 'lucide:music', href: '#' },
+  { label: 'YouTube', icon: 'lucide:youtube', href: '#' },
+];
+
+const themes = [
+  'Marketing systems that actually move the needle',
+  'Local SEO, paid ads, and reputation — done right',
+  'Hiring, automation, and freeing up the doctor\'s time',
+  'Lessons from practices that grew (and ones that stalled)',
+];
+---
+<PageLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="pod-hero">
+    <div class="container-page pod-grid">
+      <div>
+        <p class="eyebrow">The Podcast</p>
+        <h1 class="h-display pod-title">The Chiropractic Practice Success Podcast</h1>
+        <p class="lead pod-dek">
+          Hosted by Nick Fischer. Each episode breaks down what's actually working to
+          grow a chiropractic practice — marketing, systems, and the mindset behind
+          sustainable success.
+        </p>
+        <div class="pod-actions">
+          {platforms.map((p) => (
+            <a href={p.href} class="btn btn-on-dark pod-platform" rel="noopener" aria-label={`Listen on ${p.label}`}>
+              <Icon name={p.icon} width="18" height="18" /> {p.label}
+            </a>
+          ))}
+        </div>
+        <p class="pod-note">Subscribe links are being finalized — check back shortly.</p>
+      </div>
+
+      <div class="pod-art" aria-hidden="true">
+        <Icon name="lucide:mic" width="64" height="64" />
+        <span>CPS</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What you'll hear</p>
+        <h2 class="h-display">Built for chiropractors who want to grow</h2>
+      </div>
+      <ul class="themes">
+        {themes.map((t) => (
+          <li class="theme" data-reveal><Icon name="lucide:check-circle-2" width="20" height="20" /> {t}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container-page cta" data-reveal>
+      <div>
+        <h2 class="h-display">Want to be a guest — or have me on your show?</h2>
+        <p class="lead">I love a good conversation about growing practices. Let's talk.</p>
+      </div>
+      <a href="/contact/" class="btn btn-primary">Get in touch <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .pod-hero { background: linear-gradient(135deg, var(--color-navy), var(--color-navy-700)); color: #fff; padding-block: 4rem; }
+  .pod-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: center; }
+  .pod-hero .eyebrow { color: var(--color-gold); }
+  .pod-title { color: #fff; font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; }
+  .pod-dek { color: var(--color-n-200); margin-top: 1.25rem; max-width: 52ch; }
+  .pod-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
+  .pod-platform { font-size: 0.9rem; }
+  .pod-note { color: var(--color-n-300); font-size: 0.85rem; margin-top: 1rem; }
+
+  .pod-art {
+    aspect-ratio: 1; border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-gold));
+    display: grid; place-items: center; gap: 0.5rem; color: #fff;
+    box-shadow: var(--shadow-lg); position: relative;
+  }
+  .pod-art span { font-family: var(--font-display); font-weight: 800; font-size: 2rem; letter-spacing: 0.1em; }
+
+  .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
+  .section-head { max-width: 40ch; margin-bottom: 2rem; }
+  .section-head h2 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin: 0.5rem 0 0; }
+
+  .themes { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .theme { display: flex; gap: 0.75rem; align-items: start; padding: 1.1rem 1.25rem; background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-md); color: var(--color-n-700); }
+  .theme [data-icon] { color: var(--color-success); flex: none; margin-top: 1px; }
+
+  .cta { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.5rem; }
+  .cta .lead { margin: 0; }
+
+  @media (max-width: 860px) {
+    .pod-grid { grid-template-columns: 1fr; }
+    .pod-art { max-width: 220px; }
+    .themes { grid-template-columns: 1fr; }
+  }
+</style>

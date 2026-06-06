@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# AI answer engines / LLM crawlers — explicitly welcomed (this is a personal
+# authority site; visibility in AI overviews is a goal).
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://nickfischer.com/sitemap-index.xml

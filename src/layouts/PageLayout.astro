@@ -1,0 +1,25 @@
+---
+// Standard marketing page shell: BaseLayout (head) + Nav + <main> + Footer.
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: object | object[];
+  preloadImage?: string;
+}
+const props = Astro.props;
+---
+<BaseLayout {...props}>
+  <slot name="head" slot="head" />
+  <Nav />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>

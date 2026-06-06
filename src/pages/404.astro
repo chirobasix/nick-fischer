@@ -1,0 +1,26 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+const title = 'Page not found - Nick Fischer';
+const description = 'The page you were looking for could not be found.';
+---
+<PageLayout title={title} description={description} noindex={true}>
+  <section class="nf">
+    <div class="container-page">
+      <p class="eyebrow">404</p>
+      <h1 class="h-display">This page took a detour.</h1>
+      <p class="lead">The page you're after doesn't exist — but there's plenty more to explore.</p>
+      <div class="nf-links">
+        <a href="/" class="btn btn-primary">Back home</a>
+        <a href="/about/" class="btn btn-ghost">About Nick</a>
+        <a href="/podcast/" class="btn btn-ghost">Podcast</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .nf { padding-block: 6rem; text-align: center; }
+  .nf h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin: 0.5rem 0 0; }
+  .nf .lead { margin: 1rem auto 0; max-width: 44ch; }
+  .nf-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+</style>

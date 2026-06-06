@@ -1,0 +1,233 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildProfilePage,
+  buildBook, buildPodcastSeries,
+} from '../lib/seo';
+
+const title = withBrand('Nick Fischer — Chiropractic Marketing Consultant, Author & Speaker');
+const description =
+  'Nick Fischer is the founder of CHIROBASIX, author of The Chiropractor\'s Marketing Playbook, and host of The Chiropractic Practice Success Podcast — helping chiropractors grow with marketing that works as a system.';
+
+// Home is a ProfilePage about the Person. The whole entity graph ships here so
+// Google + AI engines can resolve "Nick Fischer" to a single, well-described node.
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildBook(),
+  buildPodcastSeries(),
+  buildProfilePage({ url: abs('/'), name: 'Nick Fischer', description }),
+];
+
+const pillars = [
+  {
+    icon: 'lucide:trending-up',
+    title: 'Founder, CHIROBASIX',
+    body: 'A marketing agency built exclusively for chiropractors — proven patient-generation systems, not one-off campaigns.',
+    href: 'https://chirobasix.com',
+    cta: 'Visit CHIROBASIX',
+    external: true,
+  },
+  {
+    icon: 'lucide:mic',
+    title: 'Podcast Host',
+    body: 'The Chiropractic Practice Success Podcast — candid conversations and tactics for building a thriving practice.',
+    href: '/podcast/',
+    cta: 'Listen to the show',
+  },
+  {
+    icon: 'lucide:book-open',
+    title: 'Author',
+    body: 'The Chiropractor\'s Marketing Playbook — the system for turning a chiropractic practice into a patient magnet.',
+    href: '/book/',
+    cta: 'Explore the book',
+  },
+  {
+    icon: 'lucide:presentation',
+    title: 'Speaker',
+    body: 'Keynotes and workshops at chiropractic events nationwide on practice growth, marketing systems, and AI.',
+    href: '/speaking/',
+    cta: 'Book Nick to speak',
+  },
+];
+
+const stats = [
+  { value: '10+', label: 'Years in marketing' },
+  { value: '1', label: 'Industry, mastered: chiropractic' },
+  { value: '∞', label: 'Patients helped downstream' },
+];
+---
+<PageLayout title={title} description={description} ogType="profile" jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container-page hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Digital marketer · Founder of CHIROBASIX</p>
+        <h1 class="h-display hero-title">
+          Marketing is a system — <span class="accent">not a campaign.</span>
+        </h1>
+        <p class="lead hero-lead">
+          I'm Nick Fischer. I help chiropractors across the country dominate online
+          so they can help more patients — through data-driven strategy, creative
+          that converts, and systems that compound month after month.
+        </p>
+        <div class="hero-actions">
+          <a href="/about/" class="btn btn-primary">Meet Nick <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+          <a href="/speaking/" class="btn btn-ghost">Book a talk</a>
+        </div>
+        <ul class="hero-stats">
+          {stats.map((s) => (
+            <li><strong>{s.value}</strong><span>{s.label}</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <aside class="hero-card" aria-label="At a glance">
+        <div class="hero-portrait" aria-hidden="true">NF</div>
+        <p class="hero-card-name">Nick Fischer</p>
+        <p class="hero-card-role">Founder &amp; Chiropractic Marketing Consultant</p>
+        <ul class="hero-card-list">
+          <li><Icon name="lucide:check" width="16" height="16" /> Author, <em>The Chiropractor's Marketing Playbook</em></li>
+          <li><Icon name="lucide:check" width="16" height="16" /> Host, <em>Chiropractic Practice Success Podcast</em></li>
+          <li><Icon name="lucide:check" width="16" height="16" /> National speaker &amp; presenter</li>
+          <li><Icon name="lucide:check" width="16" height="16" /> Marketing degree, Grand Valley State</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Pillars -->
+  <section class="section">
+    <div class="container-page">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">What I do</p>
+        <h2 class="h-display">Four ways I help practices grow</h2>
+      </div>
+      <div class="pillars">
+        {pillars.map((p) => (
+          <article class="card pillar" data-reveal>
+            <span class="pillar-icon"><Icon name={p.icon} width="22" height="22" /></span>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+            <a href={p.href} class="pillar-link" {...(p.external ? { target: '_blank', rel: 'noopener' } : {})}>
+              {p.cta} <Icon name="lucide:arrow-right" width="16" height="16" />
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy / quote -->
+  <section class="quote-band">
+    <div class="container-page" data-reveal>
+      <blockquote class="quote">
+        “True marketing is a system, not a campaign. It's not about how many leads
+        you get this month — it's where your practice is going to be 6 months,
+        12 months, and 5 years from now.”
+      </blockquote>
+      <p class="quote-by">— Nick Fischer</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container-page cta" data-reveal>
+      <div>
+        <h2 class="h-display">Let's build your growth system.</h2>
+        <p class="lead">Speaking, podcast guesting, media, or working with my agency — start here.</p>
+      </div>
+      <a href="/contact/" class="btn btn-primary">Get in touch <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .hero {
+    background:
+      radial-gradient(1100px 480px at 85% -10%, var(--color-accent-100), transparent 60%),
+      linear-gradient(180deg, var(--color-n-50), var(--color-n-0));
+    padding-block: 4rem 3rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero-title { font-size: clamp(2.25rem, 5vw, 3.6rem); margin: 0.75rem 0 0; }
+  .accent { color: var(--color-accent); }
+  .hero-lead { margin-top: 1.25rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap; }
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin: 2.5rem 0 0; padding: 0; list-style: none;
+    border-top: 1px solid var(--color-n-200); padding-top: 1.5rem;
+  }
+  .hero-stats li { display: flex; flex-direction: column; }
+  .hero-stats strong { font-family: var(--font-display); font-size: 1.75rem; color: var(--color-navy); }
+  .hero-stats span { font-size: 0.85rem; color: var(--color-n-400); max-width: 18ch; }
+
+  .hero-card {
+    background: var(--color-navy);
+    color: #fff;
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+  }
+  .hero-portrait {
+    width: 84px; height: 84px; border-radius: 999px;
+    display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 800; font-size: 1.75rem;
+    background: linear-gradient(135deg, var(--color-accent), var(--color-gold));
+    color: #fff; margin-bottom: 1.25rem;
+  }
+  .hero-card-name { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; margin: 0; }
+  .hero-card-role { color: var(--color-n-300); margin: 0.25rem 0 1.25rem; font-size: 0.95rem; }
+  .hero-card-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .hero-card-list li { display: flex; gap: 0.6rem; align-items: start; font-size: 0.95rem; color: var(--color-n-100); }
+  .hero-card-list [data-icon] { color: var(--color-gold); flex: none; margin-top: 2px; }
+
+  .section-head { max-width: 40ch; margin-bottom: 2.5rem; }
+  .section-head h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); margin: 0.5rem 0 0; }
+
+  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  .pillar { padding: 1.75rem; display: flex; flex-direction: column; }
+  .pillar-icon {
+    display: inline-grid; place-items: center; width: 46px; height: 46px;
+    border-radius: var(--radius-md); background: var(--color-accent-100); color: var(--color-accent-700);
+    margin-bottom: 1rem;
+  }
+  .pillar h3 { font-family: var(--font-display); font-size: 1.2rem; margin: 0 0 0.5rem; }
+  .pillar p { color: var(--color-n-600); margin: 0 0 1.25rem; }
+  .pillar-link {
+    margin-top: auto; display: inline-flex; align-items: center; gap: 0.4rem;
+    font-weight: 600; color: var(--color-accent);
+  }
+  .pillar-link:hover { gap: 0.65rem; }
+
+  .quote-band { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); padding-block: 4rem; }
+  .quote {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.3; letter-spacing: -0.01em;
+    color: var(--color-ink); max-width: 30ch; margin: 0 auto; text-align: center; text-wrap: balance;
+  }
+  .quote-by { text-align: center; margin-top: 1.25rem; color: var(--color-n-500); font-weight: 600; }
+
+  .cta {
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    background: linear-gradient(120deg, var(--color-accent-100), var(--color-n-50));
+    border: 1px solid var(--color-n-200); border-radius: var(--radius-xl); padding: 2.5rem;
+  }
+  .cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.5rem; }
+  .cta .lead { margin: 0; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-card { order: -1; }
+    .pillars { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>

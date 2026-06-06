@@ -1,0 +1,125 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildProfilePage,
+} from '../lib/seo';
+
+const title = withBrand('About Nick Fischer');
+const description =
+  'Nick Fischer is the founder of CHIROBASIX, a marketing consultant with 10+ years of experience, author, podcast host, and national speaker focused on helping chiropractors grow.';
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildProfilePage({ url: abs('/about/'), name: 'About Nick Fischer', description }),
+];
+
+const timeline = [
+  { when: 'In college', what: 'Started building websites for local businesses — the first taste of marketing that moves the needle.' },
+  { when: 'Early career', what: 'Led marketing teams across organizations and agencies, learning what scales and what just burns budget.' },
+  { when: 'CHIROBASIX', what: 'Founded a marketing agency built exclusively for chiropractors — a repeatable system for patient generation.' },
+  { when: 'Today', what: 'Author, podcast host, and speaker helping practices across the country win online.' },
+];
+
+const credentials = [
+  '10+ years of marketing experience',
+  'Marketing degree, Grand Valley State University',
+  "Author, The Chiropractor's Marketing Playbook",
+  'Host, The Chiropractic Practice Success Podcast',
+  'National speaker at chiropractic industry events',
+];
+---
+<PageLayout title={title} description={description} ogType="profile" jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="container-page">
+      <p class="eyebrow">About</p>
+      <h1 class="h-display page-title">Data-focused. Obsessed with creative strategy.</h1>
+      <p class="lead page-dek">
+        I'm Nick Fischer — founder of CHIROBASIX and a chiropractic marketing consultant.
+        For more than a decade I've helped practices turn marketing from a guessing game
+        into a system that compounds.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page about-grid">
+      <div class="prose-block">
+        <h2 class="h-display">My story</h2>
+        <p>
+          My marketing career started in college, building websites for local
+          businesses. I went on to lead marketing departments across organizations
+          and agencies — and kept noticing the same thing: most marketing is sold
+          as a campaign, when what actually grows a business is a <strong>system</strong>.
+        </p>
+        <p>
+          So I built one. CHIROBASIX is a marketing agency made for chiropractors and
+          nothing else. We pair data-driven strategy with creative that converts, so
+          our clients don't just get leads this month — they get a practice that's in a
+          stronger position 6 months, 12 months, and 5 years from now.
+        </p>
+        <p>
+          Outside the agency, I host <a href="/podcast/">The Chiropractic Practice
+          Success Podcast</a>, wrote <a href="/book/">The Chiropractor's Marketing
+          Playbook</a>, and <a href="/speaking/">speak at events</a> across the country.
+          The mission behind all of it is the same: help chiropractors dominate online
+          so they can help more patients.
+        </p>
+      </div>
+
+      <aside class="cred-card">
+        <h3>Credentials</h3>
+        <ul>
+          {credentials.map((c) => (
+            <li><Icon name="lucide:badge-check" width="18" height="18" /> {c}</li>
+          ))}
+        </ul>
+        <a href="/contact/" class="btn btn-primary cred-cta">Work with Nick</a>
+      </aside>
+    </div>
+
+    <div class="container-page">
+      <div class="timeline">
+        {timeline.map((t) => (
+          <div class="t-item" data-reveal>
+            <span class="t-when">{t.when}</span>
+            <p class="t-what">{t.what}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2rem; }
+  .page-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; max-width: 18ch; }
+  .page-dek { margin-top: 1.25rem; max-width: 60ch; }
+
+  .about-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem; align-items: start; }
+  .prose-block h2 { font-size: 1.75rem; margin: 0 0 1rem; }
+  .prose-block p { color: var(--color-n-600); margin: 0 0 1.1rem; font-size: 1.0625rem; }
+  .prose-block a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
+
+  .cred-card { background: var(--color-n-50); border: 1px solid var(--color-n-200); border-radius: var(--radius-lg); padding: 1.75rem; position: sticky; top: 88px; }
+  .cred-card h3 { font-family: var(--font-display); margin: 0 0 1rem; font-size: 1.15rem; }
+  .cred-card ul { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0.85rem; }
+  .cred-card li { display: flex; gap: 0.6rem; align-items: start; color: var(--color-n-700); font-size: 0.95rem; }
+  .cred-card [data-icon] { color: var(--color-accent); flex: none; margin-top: 1px; }
+  .cred-cta { width: 100%; justify-content: center; }
+
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 3.5rem; }
+  .t-item { border-top: 3px solid var(--color-accent); padding-top: 1rem; }
+  .t-when { font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); }
+  .t-what { color: var(--color-n-600); margin: 0.5rem 0 0; font-size: 0.95rem; }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .cred-card { position: static; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) { .timeline { grid-template-columns: 1fr; } }
+</style>

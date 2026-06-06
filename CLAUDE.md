@@ -1,0 +1,90 @@
+# Nick Fischer Personal Site — Claude Context
+
+Astro v6 personal-brand site for **Nick Fischer** — digital marketer, founder of
+the chiropractic marketing agency **CHIROBASIX**, author of *The Chiropractor's
+Marketing Playbook*, host of *The Chiropractic Practice Success Podcast*, and
+national speaker. Deployed on **Cloudflare Pages**. North-star goal: own the
+"Nick Fischer" entity in Google + AI answer engines and rank for his authority
+topics (chiropractic marketing, practice growth, speaking).
+
+> Auto-loaded into every Claude session. Keep conventions here. **Never commit
+> secrets** — use environment variables / repo secrets.
+
+## Git workflow
+
+`main` **auto-deploys to production** on Cloudflare (`.github/workflows/cf-pages-deploy.yml`,
+on push to `main`). So:
+
+- Branch from latest `main`, push the branch, open a PR. Don't commit to `main`
+  directly once the deploy secrets are live.
+- One branch per task, named `claude/<short-topic>`.
+- No CI gates the PR — validate locally: `npx astro sync && npm test && npm run build`.
+
+## Commands
+
+- `npm run dev` — dev server
+- `npm run build` — production build → `dist/`
+- `npm test` — Vitest (SEO/schema helpers)
+- `npx astro sync` — regenerate Astro content/types
+
+## Architecture
+
+- **Zero client JS by default.** The only inline scripts are the nav toggle
+  (pure CSS checkbox) and a tiny reveal-on-scroll IntersectionObserver in
+  `BaseLayout.astro`. No React/Partytown/analytics by default — keep it that way
+  for perfect Lighthouse/CWV unless there's a strong reason.
+- **System-font stack** (no web fonts) — instant text paint, no swap CLS. Tokens
+  in `src/styles/globals.css` (`--font-display` / `--font-body`). Swap to a
+  self-hosted face via `@font-face` if a distinct display type is wanted.
+- **Pages** live in `src/pages/*.astro` (no content collections yet — add a
+  `blog`/`insights` collection later via `src/content.config.ts` if needed).
+- **Layouts:** `BaseLayout.astro` (the `<head>` + JSON-LD graph + doc shell) →
+  `PageLayout.astro` (Nav + `<main>` + Footer).
+
+## SEO conventions (IMPORTANT)
+
+- All structured data is built in `src/lib/seo.ts` and merged into ONE JSON-LD
+  `@graph` per page by `BaseLayout` (`buildGraph` de-dupes by `@id`).
+- Central entity: **`Person` (`/#person`)** → `worksFor`/`founder` the CHIROBASIX
+  **`Organization`** (`https://chirobasix.com/#organization`). Also `WebSite`,
+  `ProfilePage` (home + about), `Book` (`/book/#book`), `PodcastSeries`
+  (`/podcast/#podcast`), `FAQPage`, and `Event`/`ItemList` (speaking).
+- **`<title>` = `withBrand(title)`** → appends `" - Nick Fischer"` (idempotent).
+- **Length targets:** title ≤ 60 chars incl. brand; meta description 140–160.
+  Lead with the primary keyword.
+- `Person.sameAs` (LinkedIn / X / CHIROBASIX profile) is the strongest
+  entity-disambiguation signal — keep it accurate and expand it as profiles are
+  added.
+- **Never fabricate** events, reviews, ratings, or episode/book purchase data.
+  Builders return `null`/omit when data is absent (see `buildSpeakerEvents`).
+
+## Facts (source of truth for copy)
+
+- Role: Founder & Chiropractic Marketing Consultant.
+- 10+ years marketing experience; marketing degree, Grand Valley State University.
+- Started building websites for local businesses in college; led marketing teams
+  before founding CHIROBASIX.
+- Tagline: "Helping chiropractors across the country dominate online so they can
+  help more patients."
+- Philosophy: "Marketing is a system, not a campaign."
+- Socials: LinkedIn `nfischer83`, X `@nick_fisch_er`. Agency: chirobasix.com.
+
+## Domain (PLACEHOLDER — confirm)
+
+Canonical host is `https://nickfischer.com` as a placeholder. To change: set
+`PUBLIC_SITE_URL` in the deploy workflow (one place), or update the fallback in
+`astro.config.mjs` + `src/lib/seo.ts` + `public/robots.txt` + `public/llms.txt`.
+
+## Cloudflare deploy
+
+Direct-upload Pages project `nick-fischer` (auto-created on first deploy).
+**Required repo secrets:** `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
+(reuse the CHIROBASIX values). After merge the deploy takes ~1–2 min.
+
+## TODO / not yet done
+
+- Add real OG image at `public/img/og-default.png` (1200×630) + portrait
+  `public/img/nick-fischer.jpg` (referenced by `Person.image`).
+- Add `apple-touch-icon.png` (180×180) to `/public`.
+- Wire real podcast subscribe links, book purchase link, and speaking events.
+- Confirm final domain and flip the placeholder.

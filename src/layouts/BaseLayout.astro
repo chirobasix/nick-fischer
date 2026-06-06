@@ -1,0 +1,146 @@
+---
+// src/layouts/BaseLayout.astro — the single <head> + document shell.
+import '../styles/globals.css';
+import { buildBreadcrumbList, buildGraph } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: object | object[];
+  /** URL of the LCP image to preload (e.g. a page hero) for faster LCP. */
+  preloadImage?: string;
+}
+
+// Production canonical. PUBLIC_SITE_URL overrides at build time; fallback is the
+// intended live domain so a missing env var still ships correct canonicals.
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://nickfischer.com';
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImage = '/img/og-default.png',
+  ogImageAlt,
+  ogType = 'website',
+  noindex = false,
+  jsonLd,
+  preloadImage,
+} = Astro.props;
+
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, SITE_URL).toString();
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, SITE_URL).toString();
+
+// Compose page-supplied nodes + the auto BreadcrumbList into one @graph.
+const baseSchema = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const breadcrumbSchema = buildBreadcrumbList(Astro.url.pathname);
+const graphNodes = breadcrumbSchema ? [...baseSchema, breadcrumbSchema] : baseSchema;
+const jsonLdGraph = graphNodes.length ? buildGraph(graphNodes) : null;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#14253B" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <link rel="canonical" href={canonical} />
+    {/* SVG favicon (scales to any size, single request). Add raster
+        apple-touch-icon.png to /public later for older iOS home screens. */}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    {preloadImage && (
+      <>
+        {/^https?:\/\//.test(preloadImage) && (
+          <link rel="preconnect" href={new URL(preloadImage).origin} crossorigin />
+        )}
+        <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
+      </>
+    )}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={ogImageAlt ?? description} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Nick Fischer" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@nick_fisch_er" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt ?? description} />
+
+    <!-- JSON-LD — a single @graph for the whole page (see buildGraph). -->
+    {jsonLdGraph && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLdGraph)} />
+    )}
+
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only-focusable">Skip to content</a>
+    <slot />
+
+    {/* Reveal-on-scroll — zero-dependency inline observer (no JS bundle).
+        Reads then writes in separate passes to avoid layout thrash; above-fold
+        elements are left visible so LCP is never delayed. Respects
+        prefers-reduced-motion by simply never arming. */}
+    <script is:inline>
+      (function () {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        function init() {
+          var els = document.querySelectorAll('[data-reveal]');
+          if (!els.length || !('IntersectionObserver' in window)) return;
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('in');
+              io.unobserve(entry.target);
+            });
+          }, { threshold: 0.12 });
+          var vh = window.innerHeight || 0;
+          var toArm = [];
+          for (var i = 0; i < els.length; i++) {
+            var rect = els[i].getBoundingClientRect();
+            if (rect.top >= vh) toArm.push(els[i]); // only below-fold
+          }
+          for (var j = 0; j < toArm.length; j++) {
+            toArm[j].classList.add('armed');
+            io.observe(toArm[j]);
+          }
+        }
+        function defer() {
+          if ('requestIdleCallback' in window) window.requestIdleCallback(init, { timeout: 500 });
+          else setTimeout(init, 0);
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', defer, { once: true });
+        } else { defer(); }
+      })();
+    </script>
+
+    <style is:inline>
+      .sr-only-focusable {
+        position: absolute; left: -9999px; top: 0;
+        background: #14253B; color: #fff; padding: .75rem 1.25rem;
+        border-radius: 0 0 8px 0; z-index: 100;
+      }
+      .sr-only-focusable:focus { left: 0; }
+    </style>
+  </body>
+</html>
