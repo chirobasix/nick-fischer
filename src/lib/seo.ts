@@ -56,7 +56,13 @@ export function buildPerson() {
     givenName: 'Nick',
     familyName: 'Fischer',
     url: SITE_URL,
-    image: abs('/img/nick-fischer.jpg'),
+    image: {
+      '@type': 'ImageObject',
+      url: abs('/img/nick-fischer.jpg'),
+      width: 1024,
+      height: 1024,
+      caption: 'Nick Fischer',
+    },
     jobTitle: 'Founder & Chiropractic Marketing Consultant',
     description:
       'Founder of CHIROBASIX, chiropractic marketing consultant, author of The Chiropractor\'s Marketing Playbook, and host of the Chiropractic Practice Success podcast.',
@@ -78,6 +84,13 @@ export function buildPerson() {
     knowsLanguage: 'en-US',
     // The page Google should treat as the entity's home (the bio/about page).
     mainEntityOfPage: abs('/about/'),
+    // A third-party work about Nick — ties off-site corroboration into the graph.
+    subjectOf: {
+      '@type': 'PodcastEpisode',
+      name: 'How to Grow Your Chiropractic Practice Using AI with Nick Fischer',
+      url: 'https://myfivestar.com/podcast/how-to-grow-your-chiropractic-practice-using-ai-with-nick-fischer/',
+      datePublished: '2025-07-30',
+    },
     sameAs: PERSON_SAME_AS,
   };
 }
@@ -89,7 +102,12 @@ export function buildOrganization() {
     '@id': ORG_ID,
     name: 'CHIROBASIX',
     url: 'https://chirobasix.com',
-    logo: abs('/img/chirobasix-logo.png'),
+    logo: {
+      '@type': 'ImageObject',
+      url: abs('/img/chirobasix-logo.png'),
+      width: 360,
+      height: 68,
+    },
     description:
       'A marketing agency built exclusively for chiropractors, helping practices grow with proven patient-generation systems.',
     founder: { '@id': PERSON_ID },

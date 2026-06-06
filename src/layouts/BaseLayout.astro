@@ -78,9 +78,17 @@ const jsonLdGraph = graphNodes.length ? buildGraph(graphNodes) : null;
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Nick Fischer" />
     <meta property="og:locale" content="en_US" />
+    {ogType === 'profile' && (
+      <>
+        <meta property="profile:first_name" content="Nick" />
+        <meta property="profile:last_name" content="Fischer" />
+        <meta property="profile:username" content="nick_fisch_er" />
+      </>
+    )}
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@nick_fisch_er" />
     <meta name="twitter:creator" content="@nick_fisch_er" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

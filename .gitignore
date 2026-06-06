@@ -25,3 +25,6 @@ pnpm-debug.log*
 !.vscode/extensions.json
 .idea/
 .claude/
+
+# local working notes (not for the public repo)
+docs/
