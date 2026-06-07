@@ -57,17 +57,22 @@ const jsonLd = [
   buildSpeakerEvents(sortedEvents),
 ].filter(Boolean) as object[];
 ---
-<PageLayout title={title} description={description} jsonLd={jsonLd}>
+<PageLayout title={title} description={description} jsonLd={jsonLd} preloadImage="/img/speaking-hero.jpg">
   <section class="page-hero">
-    <div class="container-page">
-      <p class="eyebrow">Speaking</p>
-      <h1 class="h-display page-title">Talks that send chiropractors home with a plan.</h1>
-      <p class="lead page-dek">
-        I speak at chiropractic events across the country on practice growth, marketing
-        systems, and AI — energetic, specific, and built so the audience leaves with
-        steps they can run on Monday morning.
-      </p>
-      <a href="/contact/" class="btn btn-primary">Book Nick to speak <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+    <div class="container-page speak-hero-grid">
+      <div class="speak-hero-copy">
+        <p class="eyebrow">Speaking</p>
+        <h1 class="h-display page-title">Talks that send chiropractors home with a plan.</h1>
+        <p class="lead page-dek">
+          I speak at chiropractic events across the country on practice growth, marketing
+          systems, and AI — energetic, specific, and built so the audience leaves with
+          steps they can run on Monday morning.
+        </p>
+        <a href="/contact/" class="btn btn-primary">Book Nick to speak <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+      </div>
+      <div class="speak-hero-media">
+        <img src="/img/speaking-hero.jpg" width="1600" height="1068" alt="Nick Fischer speaking on stage at a chiropractic event" fetchpriority="high" decoding="async" />
+      </div>
     </div>
   </section>
 
@@ -85,6 +90,16 @@ const jsonLd = [
             <p>{t.body}</p>
           </article>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section gallery-section">
+    <div class="container-page">
+      <div class="gallery">
+        <img src="/img/speaking-a.jpg" width="1400" height="935" alt="Nick Fischer presenting at a chiropractic seminar" loading="lazy" decoding="async" />
+        <img src="/img/speaking-b.jpg" width="1400" height="935" alt="Nick Fischer on stage with a microphone" loading="lazy" decoding="async" />
+        <img src="/img/speaking-c.jpg" width="1400" height="932" alt="Nick Fischer delivering a keynote talk" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -138,9 +153,18 @@ const jsonLd = [
 </PageLayout>
 
 <style>
-  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2.5rem; }
+  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 3rem; }
   .page-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; max-width: 20ch; }
-  .page-dek { margin-top: 1.25rem; max-width: 60ch; margin-bottom: 1.75rem; }
+  .page-dek { margin-top: 1.25rem; max-width: 52ch; margin-bottom: 1.75rem; }
+
+  .speak-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 3rem; align-items: center; }
+  .speak-hero-media img { width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); display: block; }
+
+  .gallery-section { padding-block: 0 1rem; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .gallery img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); display: block; }
+  @media (max-width: 860px) { .speak-hero-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 680px) { .gallery { grid-template-columns: 1fr; } }
 
   .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
   .section-head { max-width: 40ch; margin-bottom: 2.5rem; }

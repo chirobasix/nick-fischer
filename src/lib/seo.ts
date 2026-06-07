@@ -59,8 +59,8 @@ export function buildPerson() {
     image: {
       '@type': 'ImageObject',
       url: abs('/img/nick-fischer.jpg'),
-      width: 1024,
-      height: 1024,
+      width: 800,
+      height: 1067,
       caption: 'Nick Fischer',
     },
     jobTitle: 'Founder & Chiropractic Marketing Consultant',
