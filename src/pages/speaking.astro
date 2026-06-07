@@ -2,7 +2,7 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 import {
-  abs, withBrand,
+  abs, withBrand, PERSON_ID,
   buildPerson, buildOrganization, buildWebSite, buildWebPage,
   buildSpeakerEvents, buildFaqPage, type SpeakingEvent,
 } from '../lib/seo';
@@ -48,6 +48,9 @@ const faqs = [
   { question: 'How do I book Nick to speak?', answer: 'Use the contact page to share your event date, audience, and format. You\'ll get a fast reply with availability and fit.' },
 ];
 
+// Featured talk recording (YouTube). Facade-embedded below; VideoObject here.
+const TALK_ID = '6ahP2srFosU';
+
 const jsonLd = [
   buildPerson(),
   buildOrganization(),
@@ -55,6 +58,17 @@ const jsonLd = [
   buildWebPage({ url: abs('/speaking/'), name: title, description }),
   buildFaqPage(faqs),
   buildSpeakerEvents(sortedEvents),
+  {
+    '@type': 'VideoObject',
+    name: 'AI for Chiropractors in 2026: The Complete Guide + Live Demos',
+    description:
+      "Nick Fischer's talk on using AI and answer-engine optimization to grow a chiropractic practice — frameworks plus live demos.",
+    thumbnailUrl: `https://i.ytimg.com/vi/${TALK_ID}/maxresdefault.jpg`,
+    uploadDate: '2026-01-17',
+    embedUrl: `https://www.youtube-nocookie.com/embed/${TALK_ID}`,
+    contentUrl: `https://www.youtube.com/watch?v=${TALK_ID}`,
+    author: { '@id': PERSON_ID },
+  },
 ].filter(Boolean) as object[];
 ---
 <PageLayout title={title} description={description} jsonLd={jsonLd} preloadImage="/img/speaking-hero.jpg">
@@ -91,6 +105,22 @@ const jsonLd = [
           </article>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container-page">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Watch</p>
+        <h2 class="h-display">A recent talk</h2>
+      </div>
+      <div class="video" data-yt={TALK_ID} data-reveal>
+        <button class="video-btn" type="button" aria-label="Play talk: AI for Chiropractors in 2026">
+          <img src={`https://i.ytimg.com/vi/${TALK_ID}/maxresdefault.jpg`} width="1280" height="720" alt="Nick Fischer presenting AI for Chiropractors in 2026" loading="lazy" decoding="async" />
+          <span class="video-play" aria-hidden="true"><Icon name="lucide:play" width="30" height="30" /></span>
+        </button>
+      </div>
+      <p class="video-cap">“AI for Chiropractors in 2026: The Complete Guide + Live Demos” — Winner's Edge Seminar</p>
     </div>
   </section>
 
@@ -150,6 +180,25 @@ const jsonLd = [
       </dl>
     </div>
   </section>
+
+  {/* Click-to-load YouTube facade — the player iframe is only created on click,
+      so the page ships zero video JS/iframe until the visitor opts in. */}
+  <script is:inline>
+    document.querySelectorAll('.video[data-yt]').forEach(function (el) {
+      var btn = el.querySelector('.video-btn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var ifr = document.createElement('iframe');
+        ifr.src = 'https://www.youtube-nocookie.com/embed/' + el.getAttribute('data-yt') + '?autoplay=1';
+        ifr.title = 'YouTube video player';
+        ifr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        ifr.allowFullscreen = true;
+        ifr.loading = 'lazy';
+        el.innerHTML = '';
+        el.appendChild(ifr);
+      });
+    });
+  </script>
 </PageLayout>
 
 <style>
@@ -159,6 +208,14 @@ const jsonLd = [
 
   .speak-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 3rem; align-items: center; }
   .speak-hero-media img { width: 100%; height: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); display: block; }
+
+  .video { position: relative; aspect-ratio: 16 / 9; max-width: 56rem; margin: 0 auto; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); background: #000; }
+  .video-btn { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; background: none; display: block; }
+  .video-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-play { position: absolute; inset: 0; margin: auto; width: 76px; height: 76px; display: grid; place-items: center; border-radius: 999px; background: rgba(20,37,59,.85); color: #fff; transition: transform var(--duration-base) var(--ease-out), background var(--duration-base); }
+  .video-btn:hover .video-play { transform: scale(1.08); background: var(--color-accent); }
+  .video :global(iframe) { width: 100%; height: 100%; border: 0; display: block; }
+  .video-cap { text-align: center; color: var(--color-n-500); font-size: 0.9rem; margin: 1rem auto 0; max-width: 56rem; }
 
   .gallery-section { padding-block: 0 1rem; }
   .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }

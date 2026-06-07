@@ -15,6 +15,9 @@ on:
   push:
     branches:
       - main
+  # Weekly rebuild so the /podcast/ page picks up new RSS episodes without a commit.
+  schedule:
+    - cron: '0 13 * * 1'
   workflow_dispatch:
 
 # Cancel any in-progress deploy if a newer commit lands

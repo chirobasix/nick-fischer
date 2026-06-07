@@ -4,11 +4,18 @@ import { Icon } from 'astro-icon/components';
 import {
   abs, withBrand,
   buildPerson, buildOrganization, buildWebSite, buildPodcastSeries, buildWebPage,
+  buildPodcastEpisodes,
 } from '../lib/seo';
+import { getEpisodes, fmtDuration } from '../lib/podcast';
 
 const title = withBrand('The Chiropractic Practice Success Podcast');
 const description =
   'The Chiropractic Practice Success Podcast with Nick Fischer — strategies, interviews, and real talk on marketing, patient generation, and building a thriving chiropractic practice.';
+
+// Latest episodes, pulled from the RSS feed at build time (see src/lib/podcast.ts).
+const episodes = await getEpisodes(6);
+const fmtDate = (iso: string) =>
+  iso ? new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
 
 const jsonLd = [
   buildPerson(),
@@ -16,6 +23,7 @@ const jsonLd = [
   buildWebSite(),
   buildPodcastSeries({ url: abs('/podcast/') }),
   buildWebPage({ url: abs('/podcast/'), name: title, description }),
+  ...buildPodcastEpisodes(episodes),
 ];
 
 const platforms = [
@@ -31,17 +39,6 @@ const themes = [
   'Local SEO, paid ads, and reputation — done right',
   'Hiring, automation, and freeing up the doctor\'s time',
   'Lessons from practices that grew (and ones that stalled)',
-];
-
-// Nick as a guest on other shows. Real, attributable appearances only — add as
-// they happen. Empty array hides the section.
-const appearances = [
-  {
-    show: 'Five Star Management',
-    title: 'How to Grow Your Chiropractic Practice Using AI',
-    href: 'https://myfivestar.com/podcast/how-to-grow-your-chiropractic-practice-using-ai-with-nick-fischer/',
-    date: '2025-07-30',
-  },
 ];
 ---
 <PageLayout title={title} description={description} jsonLd={jsonLd} preloadImage="/img/podcast-cover.jpg">
@@ -76,7 +73,38 @@ const appearances = [
     </div>
   </section>
 
-  <section class="section">
+  {episodes.length > 0 && (
+    <section class="section">
+      <div class="container-page">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Latest episodes</p>
+          <h2 class="h-display">Fresh from the show</h2>
+        </div>
+        <ul class="episodes">
+          {episodes.map((ep) => (
+            <li class="episode" data-reveal>
+              <a href={ep.link} target="_blank" rel="noopener">
+                <span class="episode-main">
+                  <span class="episode-meta">
+                    {ep.pubDate && <time datetime={ep.pubDate}>{fmtDate(ep.pubDate)}</time>}
+                    {fmtDuration(ep.durationSec) && <><span aria-hidden="true">·</span><span>{fmtDuration(ep.durationSec)}</span></>}
+                  </span>
+                  <span class="episode-title">{ep.title}</span>
+                  {ep.description && <span class="episode-desc">{ep.description}</span>}
+                </span>
+                <Icon name="lucide:arrow-up-right" width="18" height="18" />
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="episodes-foot">
+          <a href="https://podcasts.apple.com/us/podcast/chiropractic-practice-success-chirobasix/id1578322060" class="btn btn-ghost" target="_blank" rel="noopener">All episodes <Icon name="lucide:arrow-right" width="16" height="16" /></a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section section-alt">
     <div class="container-page">
       <div class="section-head" data-reveal>
         <p class="eyebrow">What you'll hear</p>
@@ -90,31 +118,7 @@ const appearances = [
     </div>
   </section>
 
-  {appearances.length > 0 && (
-    <section class="section">
-      <div class="container-page">
-        <div class="section-head" data-reveal>
-          <p class="eyebrow">Featured on</p>
-          <h2 class="h-display">Nick on other shows</h2>
-        </div>
-        <ul class="appearances">
-          {appearances.map((a) => (
-            <li class="appearance" data-reveal>
-              <a href={a.href} target="_blank" rel="noopener">
-                <span class="appearance-meta">
-                  <span class="appearance-show">{a.show}</span>
-                  <span class="appearance-title">{a.title}</span>
-                </span>
-                <Icon name="lucide:arrow-up-right" width="18" height="18" />
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )}
-
-  <section class="section section-alt">
+  <section class="section">
     <div class="container-page cta" data-reveal>
       <div>
         <h2 class="h-display">Want to be a guest — or have me on your show?</h2>
@@ -149,17 +153,19 @@ const appearances = [
   .theme { display: flex; gap: 0.75rem; align-items: start; padding: 1.1rem 1.25rem; background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-md); color: var(--color-n-700); }
   .theme [data-icon] { color: var(--color-success); flex: none; margin-top: 1px; }
 
-  .appearances { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; max-width: 56rem; }
-  .appearance a {
-    display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem;
+  .episodes { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
+  .episode a {
+    display: flex; align-items: flex-start; gap: 1rem; padding: 1.25rem 1.4rem;
     background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-md);
     color: var(--color-ink); transition: border-color var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
   }
-  .appearance a:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
-  .appearance-meta { display: flex; flex-direction: column; gap: 0.15rem; }
-  .appearance-show { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-accent); }
-  .appearance-title { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
-  .appearance a > [data-icon] { margin-left: auto; color: var(--color-n-400); flex: none; }
+  .episode a:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
+  .episode-main { display: flex; flex-direction: column; gap: 0.3rem; }
+  .episode-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-accent); }
+  .episode-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+  .episode-desc { color: var(--color-n-600); font-size: 0.95rem; }
+  .episode a > [data-icon] { margin-left: auto; color: var(--color-n-400); flex: none; margin-top: 2px; }
+  .episodes-foot { margin-top: 1.5rem; }
 
   .cta { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
   .cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.5rem; }

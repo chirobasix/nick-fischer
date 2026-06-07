@@ -212,6 +212,21 @@ export function buildPodcastSeries(input?: { url?: string }) {
   };
 }
 
+/** PodcastEpisode nodes for the latest episodes — each tied to the series. */
+export function buildPodcastEpisodes(
+  episodes: { title: string; link: string; pubDate: string; durationSec: number | null }[],
+) {
+  return episodes.map((e) => ({
+    '@type': 'PodcastEpisode',
+    name: e.title,
+    ...(e.link && { url: e.link }),
+    ...(e.pubDate && { datePublished: e.pubDate }),
+    ...(e.durationSec && { timeRequired: `PT${e.durationSec}S` }),
+    partOfSeries: { '@id': PODCAST_ID },
+    author: { '@id': PERSON_ID },
+  }));
+}
+
 /**
  * Speaking page → ItemList of past/upcoming Event nodes. Pass real events when
  * known; omit (or pass []) and no list is emitted (never fabricate events).
