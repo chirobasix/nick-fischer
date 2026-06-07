@@ -10,6 +10,7 @@ export interface Crumb {
 // Human labels for the first path segment. Extend as routes are added.
 const SEGMENT_LABELS: Record<string, string> = {
   about: 'About',
+  results: 'Results',
   speaking: 'Speaking',
   podcast: 'Podcast',
   book: 'Book',

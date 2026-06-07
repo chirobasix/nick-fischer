@@ -1,0 +1,257 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand, ORG_ID, PERSON_ID,
+  buildPerson, buildOrganization, buildWebSite, buildWebPage,
+} from '../lib/seo';
+
+const title = withBrand('Results — Real Chiropractic Practice Growth');
+const description =
+  'Real, recorded results from chiropractors who work with Nick Fischer and CHIROBASIX — new-patient growth, return on ad spend, and practice volume, in their own words.';
+
+// Quantified case studies. Every `stat`/`result` is drawn from the client's own
+// recorded video testimonial on the CHIROBASIX channel — numbers are faithful to
+// what each doctor states on camera. Practice names + video titles are exact;
+// dates are the real YouTube upload dates. Newest-strongest first.
+const cases = [
+  {
+    id: 'orJuHbq9v3A', name: 'Dr. Levi McQueary', practice: 'The Ridge Chiropractic', date: '2024-10-07',
+    ytTitle: 'Dr. Levi McQueary from The Ridge Chiropractic - CHIROBASIX Services Testimonial',
+    stat: '108 new patients in month one',
+    result: 'Hoping for 60 in his opening month, Dr. McQueary booked 108 — and crossed 400 new patients within his first four months.',
+  },
+  {
+    id: 'IRcfQuj47dM', name: 'Dr. Jerald Chavez', practice: 'OPTMZ State Spine', date: '2025-02-21',
+    ytTitle: 'Dr. Jerald Chavez from OPTMZ State Spine - CHIROBASIX Marketing Testimonial',
+    stat: '70+ new patients in month one',
+    result: 'A brand-new practice that booked more than 70 new patients in its very first month — well beyond what Dr. Chavez expected.',
+  },
+  {
+    id: 'SibY3mMf0yE', name: 'Dr. Alan Bertolero', practice: 'Step Up Chiropractic', date: '2023-06-27',
+    ytTitle: 'Dr. Alan Bertolero from Step Up Chiropractic - CHIROBASIX Marketing Testimonial',
+    stat: '63 new patients in month one',
+    result: 'Dr. Bertolero opened Step Up Chiropractic to 63 new patients in his first month — many coming straight from the marketing system.',
+  },
+  {
+    id: '9gOE8Vt25MM', name: 'Dr. Ernest Luong', practice: 'Resilience Chiropractic', date: '2023-07-27',
+    ytTitle: 'Dr. Ernest Luong from Resilience Chiropractic - CHIROBASIX Services Testimonial',
+    stat: '40–80 new patients a month',
+    result: 'A consistent 40 to 80 new patients walk through Dr. Luong’s doors every single month.',
+  },
+  {
+    id: 'B-B4O9u9Xgo', name: 'Dr. Gregory Bernard', practice: 'Spine Pro Chiropractic', date: '2023-06-27',
+    ytTitle: 'Dr. Gregory Bernard from Spine Pro Chiropractic - CHIROBASIX Marketing Testimonial',
+    stat: '50–60 new patients a month',
+    result: 'Across three office locations, Spine Pro now averages 50 to 60 new patients every month.',
+  },
+  {
+    id: 'VnZ5wISiIgQ', name: 'Dr. John Carleton', practice: 'Wave Chiropractic', date: '2025-07-03',
+    ytTitle: 'Dr. John Carleton from Wave Chiropractic - CHIROBASIX Services Testimonial',
+    stat: '300+ new patients in 10 months',
+    result: 'More than 300 new patients came through the doors in about ten months — averaging 20+ booked new patients a month, not just leads.',
+  },
+  {
+    id: 'kwG3ZCT4Axw', name: 'Optimal Chiropractic', practice: 'Practice success interview', date: '2021-10-07',
+    ytTitle: 'Practice Success Interview w/ Optimal Chiropractic',
+    stat: '30–50 → 126 leads (best month)',
+    result: 'In a span of a few months, monthly lead flow climbed from 30–50 to a best month of 126.',
+  },
+  {
+    id: 'vc1miOubZhc', name: 'Kevin Bock', practice: 'The Joint Chiropractic (Orlando)', date: '2023-07-12',
+    ytTitle: 'Kevin Bock from The Joint Chiropractic (Orlando Area) - CHIROBASIX Marketing Services Testimonial',
+    stat: '+50% new-patient growth',
+    result: 'After taking the clinics online with the system, Kevin saw new-patient growth jump 50%.',
+  },
+  {
+    id: 'jgzwefyc2mE', name: 'Spinal Rehab Center', practice: 'Lake Geneva', date: '2024-06-05',
+    ytTitle: 'Ami from Spinal Rehab Center of Lake Geneva - CHIROBASIX Marketing Testimonial',
+    stat: '11 → 35 quality patients a month',
+    result: 'Monthly new patients more than tripled — from around 11 to 35 — and the leads got higher-quality, not just higher-volume.',
+  },
+  {
+    id: 'BVML1UbLgIE', name: 'Dr. Peter Lynch', practice: 'Tri-States Chiropractic', date: '2023-07-26',
+    ytTitle: 'Dr. Peter Lynch from Tri-States Chiropractic - CHIROBASIX Marketing Services Testimonials',
+    stat: '25–30 → 45–50 visits a week',
+    result: 'Weekly practice volume climbed from 25–30 visits to roughly 45–50.',
+  },
+  {
+    id: 'WUfdnBG0eIQ', name: 'Dr. Sean Flaherty', practice: 'Narrows Chiropractic', date: '2023-07-12',
+    ytTitle: 'Dr. Sean Flaherty from Narrows Chiropractic - CHIROBASIX Marketing Service Testimonial',
+    stat: '3× more new patients a month',
+    result: 'New patients from online roughly tripled — from about 10 a month to around 30.',
+  },
+  {
+    id: '9atKakDE2xM', name: 'Dr. Andrew Armeli', practice: 'Armeli Chiropractic', date: '2023-06-27',
+    ytTitle: 'Dr. Andrew Armeli from Armeli Chiropractic - CHIROBASIX Marketing Testimonial',
+    stat: '8–9 → 20–25 new patients a month',
+    result: 'Monthly new patients roughly tripled, climbing from 8–9 to about 20–25.',
+  },
+  {
+    id: 'dZwSpTI789M', name: 'Dr. Kyle Garbart', practice: 'Trident Health & Chiropractic', date: '2023-07-06',
+    ytTitle: 'Dr. Kyle Garbart from Trident Health & Chiropractic - CHIROBASIX Marketing Testimonial',
+    stat: '20–30 new patients a month',
+    result: 'Dr. Garbart pulls 20–30 new patients a month — several times what nearby colleagues report.',
+  },
+  {
+    id: '0WvUnCJIjSA', name: 'Dr. Dan Miller', practice: 'Beaverton Family Chiropractic', date: '2023-06-30',
+    ytTitle: 'Dr. Dan Miller from Beaverton Family Chiropractic - CHIROBASIX Marketing Testimonial',
+    stat: '~4:1 return on ad spend',
+    result: 'After barely three months, Dr. Miller’s return on ad spend was already approaching 4 to 1.',
+  },
+  {
+    id: 'war6Xwj0T74', name: 'Dr. Derrick Pallis', practice: 'Full Power Chiropractic', date: '2024-06-14',
+    ytTitle: 'Dr. Derrick Pallis from Full Power Chiropractic - CHIROBASIX Services Testimonial',
+    stat: '15–25 new patients a month from Google',
+    result: 'A steady 15–25 new patients a month come straight from Google, where the practice now ranks at the top locally.',
+  },
+  {
+    id: 'SyzGVuMAYhk', name: 'Dr. Leland Ferguson', practice: 'Back Pain Relief Chiropractic', date: '2023-06-29',
+    ytTitle: 'Dr. Leland Ferguson from Back Pain Relief Chiropractic - CHIROBASIX Marketing Testimonial',
+    stat: '10–20 new patients a month from ads',
+    result: 'From almost no online presence to a reliable 10–20 new patients a month from online ads.',
+  },
+  {
+    id: 'YS2esZuG5Y8', name: 'Mathew Gorenstein', practice: 'Living Wellness Chiropractic', date: '2026-04-17',
+    ytTitle: 'Mathew Gorenstein from Living Wellness Chiropractic - CHIROBASIX Services Testimonial',
+    stat: '9 new patients in 3 weeks',
+    result: 'After years of marketing that didn’t deliver, 9 new patients came in the first 3 weeks — versus just 4 across the prior 11.',
+  },
+  {
+    id: 'tfL__dEZSvo', name: 'Dr. Brandin Bull', practice: 'Bull Chiropractic', date: '2026-04-17',
+    ytTitle: 'Dr. Brandin Bull from Bull Chiropractic - CHIROBASIX Services Testimonial',
+    stat: '~5 → ~20 patients a week',
+    result: 'Weekly patient volume roughly quadrupled within two months of rebuilding his website and online presence.',
+  },
+];
+
+const videoNodes = cases.map((c) => ({
+  '@type': 'VideoObject',
+  name: c.ytTitle,
+  description: c.result,
+  thumbnailUrl: `https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`,
+  uploadDate: c.date,
+  embedUrl: `https://www.youtube-nocookie.com/embed/${c.id}`,
+  contentUrl: `https://www.youtube.com/watch?v=${c.id}`,
+  publisher: { '@id': ORG_ID },
+  about: { '@id': PERSON_ID },
+}));
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildWebPage({ url: abs('/results/'), name: title, description }),
+  ...videoNodes,
+].filter(Boolean) as object[];
+---
+<PageLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="container-page">
+      <p class="eyebrow">Results</p>
+      <h1 class="h-display page-title">Real growth, in their own words.</h1>
+      <p class="lead page-dek">
+        I don’t ask you to take my word for it. Below are chiropractors who built their
+        growth system with me and my agency, CHIROBASIX — each one telling you, on camera,
+        exactly what changed. The numbers come straight from their recorded testimonials.
+      </p>
+      <ul class="result-headline">
+        <li><strong>200+</strong><span>Practices served</span></li>
+        <li><strong>$3M+</strong><span>Yearly ad spend managed</span></li>
+        <li><strong>100s</strong><span>of new patients generated monthly</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      <ul class="cases">
+        {cases.map((c) => (
+          <li class="case" data-reveal>
+            <div class="video" data-yt={c.id}>
+              <button class="video-btn" type="button" aria-label={`Play testimonial from ${c.name}`}>
+                <img src={`https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`} width="480" height="360" alt={`${c.name} — ${c.practice}`} loading="lazy" decoding="async" />
+                <span class="video-play" aria-hidden="true"><Icon name="lucide:play" width="22" height="22" /></span>
+              </button>
+            </div>
+            <p class="case-stat">{c.stat}</p>
+            <p class="case-result">{c.result}</p>
+            <p class="case-by"><strong>{c.name}</strong><span>{c.practice}</span></p>
+          </li>
+        ))}
+      </ul>
+      <p class="cases-note">Every result above is from the practice owner’s own recorded video testimonial. Click any card to watch.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container-page cta" data-reveal>
+      <div>
+        <h2 class="h-display">Want results like these?</h2>
+        <p class="lead">Let’s build the growth system that fills your schedule with new patients.</p>
+      </div>
+      <a href="/contact/" class="btn btn-primary">Get in touch <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+    </div>
+  </section>
+
+  {/* Click-to-load facade — no iframe until clicked. */}
+  <script is:inline>
+    document.querySelectorAll('.video[data-yt]').forEach(function (el) {
+      var btn = el.querySelector('.video-btn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var ifr = document.createElement('iframe');
+        ifr.src = 'https://www.youtube-nocookie.com/embed/' + el.getAttribute('data-yt') + '?autoplay=1';
+        ifr.title = 'Video testimonial';
+        ifr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        ifr.allowFullscreen = true;
+        ifr.loading = 'lazy';
+        el.innerHTML = '';
+        el.appendChild(ifr);
+      });
+    });
+  </script>
+</PageLayout>
+
+<style>
+  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2.5rem; }
+  .page-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; max-width: 20ch; }
+  .page-dek { margin-top: 1.25rem; max-width: 64ch; }
+
+  .result-headline {
+    display: flex; flex-wrap: wrap; gap: 2.5rem; margin: 2.25rem 0 0; padding: 1.5rem 0 0;
+    list-style: none; border-top: 1px solid var(--color-n-200);
+  }
+  .result-headline li { display: flex; flex-direction: column; }
+  .result-headline strong { font-family: var(--font-display); font-size: 1.9rem; color: var(--color-navy); }
+  .result-headline span { font-size: 0.85rem; color: var(--color-n-500); max-width: 20ch; }
+
+  .cases { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem 1.5rem; }
+  .case { display: flex; flex-direction: column; }
+  .case-stat { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; line-height: 1.25; color: var(--color-navy); margin: 0.9rem 0 0; text-wrap: balance; }
+  .case-result { color: var(--color-n-600); font-size: 0.92rem; margin: 0.45rem 0 0; }
+  .case-by { margin: 0.9rem 0 0; padding-top: 0.85rem; border-top: 1px solid var(--color-n-200); display: flex; flex-direction: column; }
+  .case-by strong { font-family: var(--font-display); font-size: 0.98rem; color: var(--color-ink); }
+  .case-by span { color: var(--color-n-500); font-size: 0.85rem; }
+
+  .video { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); background: #000; }
+  .video-btn { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; background: none; display: block; }
+  .video-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-play { position: absolute; inset: 0; margin: auto; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 999px; background: rgba(20,37,59,.85); color: #fff; transition: transform var(--duration-base) var(--ease-out), background var(--duration-base); }
+  .video-btn:hover .video-play { transform: scale(1.08); background: var(--color-accent); }
+  .video :global(iframe) { width: 100%; height: 100%; border: 0; display: block; }
+
+  .cases-note { margin: 2rem 0 0; color: var(--color-n-500); font-size: 0.9rem; text-align: center; }
+
+  .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
+  .cta {
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    background: linear-gradient(120deg, var(--color-accent-100), var(--color-n-50));
+    border: 1px solid var(--color-n-200); border-radius: var(--radius-xl); padding: 2.5rem;
+  }
+  .cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.5rem; }
+  .cta .lead { margin: 0; }
+
+  @media (max-width: 860px) { .cases { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .cases { grid-template-columns: 1fr; } .result-headline { gap: 1.5rem; } }
+</style>
