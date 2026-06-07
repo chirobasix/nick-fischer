@@ -174,6 +174,7 @@ export function buildBook(input?: { url?: string }) {
     author: { '@id': PERSON_ID },
     inLanguage: 'en-US',
     about: 'Chiropractic practice marketing and patient generation',
+    image: abs('/img/book-cover.webp'),
     isbn: '979-8419806924',
     bookFormat: 'https://schema.org/Paperback',
     url: input?.url ?? abs('/book/'),

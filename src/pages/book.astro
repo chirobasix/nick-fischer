@@ -26,7 +26,7 @@ const takeaways = [
   'Measure what matters and reinvest in what actually grows the practice',
 ];
 ---
-<PageLayout title={title} description={description} jsonLd={jsonLd}>
+<PageLayout title={title} description={description} jsonLd={jsonLd} preloadImage="/img/book-cover.webp">
   <section class="book-hero">
     <div class="container-page book-grid">
       <div>
@@ -43,13 +43,8 @@ const takeaways = [
         <p class="book-note">Available in paperback on Amazon.</p>
       </div>
 
-      <div class="book-cover" aria-hidden="true">
-        <div class="cover-spine"></div>
-        <div class="cover-face">
-          <span class="cover-kicker">Nick Fischer</span>
-          <span class="cover-name h-display">The Chiropractor's Marketing Playbook</span>
-          <span class="cover-foot">A system for patient generation</span>
-        </div>
+      <div class="book-cover">
+        <img src="/img/book-cover.webp" width="561" height="1000" alt="The Chiropractor's Marketing Playbook by Nick Fischer — book cover" fetchpriority="high" decoding="async" />
       </div>
     </div>
   </section>
@@ -88,17 +83,11 @@ const takeaways = [
   .book-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
   .book-note { color: var(--color-n-400); font-size: 0.85rem; margin-top: 1rem; }
 
-  .book-cover { display: flex; justify-content: center; perspective: 1200px; }
-  .cover-face {
-    width: 260px; aspect-ratio: 2/3; border-radius: 4px 10px 10px 4px;
-    background: linear-gradient(150deg, var(--color-navy), var(--color-navy-600));
-    color: #fff; padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem;
-    box-shadow: var(--shadow-lg); border-left: 6px solid var(--color-gold);
-    transform: rotateY(-12deg); transform-style: preserve-3d;
+  .book-cover { display: flex; justify-content: center; }
+  .book-cover img {
+    width: 100%; max-width: 320px; height: auto; display: block;
+    filter: drop-shadow(0 24px 38px rgba(20, 37, 59, 0.28));
   }
-  .cover-kicker { color: var(--color-gold); font-weight: 700; letter-spacing: 0.06em; font-size: 0.85rem; text-transform: uppercase; }
-  .cover-name { color: #fff; font-size: 1.5rem; line-height: 1.15; margin-top: auto; }
-  .cover-foot { color: var(--color-n-300); font-size: 0.85rem; }
 
   .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
   .section-head { max-width: 40ch; margin-bottom: 2rem; }
