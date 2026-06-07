@@ -66,7 +66,7 @@ export function buildPerson() {
     },
     jobTitle: 'Founder & Chiropractic Marketing Consultant',
     description:
-      'Founder of CHIROBASIX, a chiropractic marketing consultant who has managed $350K+ in ad spend and helped 200+ practices grow. Author of The Chiropractor\'s Marketing Playbook and host of the Chiropractic Practice Success podcast, on a mission to help a million people get out of pain naturally.',
+      'Founder of CHIROBASIX, a chiropractic marketing consultant who manages $3M+ a year in ad spend and has helped 200+ practices grow. Author of The Chiropractor\'s Marketing Playbook and host of the Chiropractic Practice Success podcast, on a mission to help a million people get out of pain naturally.',
     worksFor: { '@id': ORG_ID },
     founder: { '@id': ORG_ID },
     alumniOf: {
