@@ -75,8 +75,11 @@ Production domain is **`https://nickfischer.me`** (custom domain on the Cloudfla
 Pages project `nick-fischer`). It's set as `PUBLIC_SITE_URL` in the deploy workflow
 and as the fallback in `astro.config.mjs` + `src/lib/seo.ts` +
 `src/layouts/BaseLayout.astro` + `public/robots.txt` + `public/llms.txt`, with
-matching assertions in `src/lib/seo.test.ts`. The site also remains reachable at
-`nick-fischer.pages.dev` (canonicals point to nickfischer.me).
+matching assertions in `src/lib/seo.test.ts`. A Pages Function
+(`functions/_middleware.js`) 301-redirects the production `nick-fischer.pages.dev`
+alias to `nickfischer.me` so there's a single canonical home (preview hash URLs
+pass through). This is edge-side — still zero client JS, and `_headers`/`_redirects`
+stay intact (unlike an advanced-mode `_worker.js`).
 
 ## Cloudflare deploy
 
