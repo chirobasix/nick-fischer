@@ -86,7 +86,10 @@ const takeaways = [
   .book-cover { display: flex; justify-content: center; }
   .book-cover img {
     width: 100%; max-width: 320px; height: auto; display: block;
-    filter: drop-shadow(0 24px 38px rgba(20, 37, 59, 0.28));
+    /* The render has a solid white background (no alpha); multiply dissolves it
+       into the light page so there's no white box, while the book's own baked
+       shadow still reads. */
+    mix-blend-mode: multiply;
   }
 
   .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
