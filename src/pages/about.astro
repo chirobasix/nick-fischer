@@ -64,41 +64,39 @@ const credentials = [
 ];
 ---
 <PageLayout title={title} description={description} ogType="profile" jsonLd={jsonLd}>
-  <section class="page-hero">
-    <div class="container-page">
-      <p class="eyebrow">About</p>
-      <h1 class="h-display page-title">Data-focused. Obsessed with creative strategy.</h1>
-      <p class="lead page-dek">
-        I'm Nick Fischer — founder of CHIROBASIX and a chiropractic marketing consultant.
-        For more than a decade I've helped practices turn marketing from a guessing game
-        into a system that compounds.
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
+  <section class="about-top">
     <div class="container-page about-grid">
-      <div class="prose-block">
-        <h2 class="h-display">My story</h2>
-        <p>
-          My marketing career started in college, building websites for local
-          businesses. I went on to lead marketing departments across organizations
-          and agencies — and kept noticing the same thing: most marketing is sold
-          as a campaign, when what actually grows a business is a <strong>system</strong>.
+      <div class="about-intro">
+        <p class="eyebrow">About</p>
+        <h1 class="h-display page-title">Data-focused. Obsessed with creative strategy.</h1>
+        <p class="lead page-dek">
+          I'm Nick Fischer — founder of CHIROBASIX and a chiropractic marketing consultant.
+          For more than a decade I've helped practices turn marketing from a guessing game
+          into a system that compounds.
         </p>
-        <p>
-          So I built one. CHIROBASIX is a marketing agency made for chiropractors and
-          nothing else. We pair data-driven strategy with creative that converts, so
-          our clients don't just get leads this month — they get a practice that's in a
-          stronger position 6 months, 12 months, and 5 years from now.
-        </p>
-        <p>
-          Outside the agency, I host <a href="/podcast/">The Chiropractic Practice
-          Success Podcast</a>, wrote <a href="/book/">The Chiropractor's Marketing
-          Playbook</a>, and <a href="/speaking/">speak at events</a> across the country.
-          The mission behind all of it is the same: help chiropractors dominate online
-          so they can help more patients.
-        </p>
+
+        <div class="prose-block">
+          <h2 class="h-display">My story</h2>
+          <p>
+            My marketing career started in college, building websites for local
+            businesses. I went on to lead marketing departments across organizations
+            and agencies — and kept noticing the same thing: most marketing is sold
+            as a campaign, when what actually grows a business is a <strong>system</strong>.
+          </p>
+          <p>
+            So I built one. CHIROBASIX is a marketing agency made for chiropractors and
+            nothing else. We pair data-driven strategy with creative that converts, so
+            our clients don't just get leads this month — they get a practice that's in a
+            stronger position 6 months, 12 months, and 5 years from now.
+          </p>
+          <p>
+            Outside the agency, I host <a href="/podcast/">The Chiropractic Practice
+            Success Podcast</a>, wrote <a href="/book/">The Chiropractor's Marketing
+            Playbook</a>, and <a href="/speaking/">speak at events</a> across the country.
+            The mission behind all of it is the same: help chiropractors dominate online
+            so they can help more patients.
+          </p>
+        </div>
       </div>
 
       <aside class="cred-card">
@@ -112,7 +110,9 @@ const credentials = [
         <a href="/contact/" class="btn btn-primary cred-cta">Work with Nick</a>
       </aside>
     </div>
+  </section>
 
+  <section class="section">
     <div class="container-page about-photo" data-reveal>
       <img src="/img/speaking-hero.jpg" width="1600" height="1068" alt="Nick Fischer presenting at a chiropractic seminar" loading="lazy" decoding="async" />
     </div>
@@ -145,11 +145,12 @@ const credentials = [
 </PageLayout>
 
 <style>
-  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2rem; }
+  .about-top { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2rem; }
   .page-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; max-width: 18ch; }
-  .page-dek { margin-top: 1.25rem; max-width: 60ch; }
+  .page-dek { margin-top: 1.25rem; max-width: 56ch; }
 
   .about-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2.5rem; align-items: start; }
+  .prose-block { margin-top: 2.5rem; }
   .prose-block h2 { font-size: 1.75rem; margin: 0 0 1rem; }
   .prose-block p { color: var(--color-n-600); margin: 0 0 1.1rem; font-size: 1.0625rem; }
   .prose-block a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }

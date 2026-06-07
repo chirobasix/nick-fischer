@@ -41,25 +41,20 @@ const takeaways = [
           <a href="/podcast/" class="btn btn-ghost">Hear the ideas in action</a>
         </div>
         <p class="book-note">Available in paperback on Amazon.</p>
+
+        <div class="book-takeaways" data-reveal>
+          <h2 class="book-takeaways-title">What you'll walk away with</h2>
+          <ul class="takeaways">
+            {takeaways.map((t) => (
+              <li class="takeaway"><Icon name="lucide:check-circle-2" width="20" height="20" /> {t}</li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div class="book-cover">
         <img src="/img/book-cover.webp" width="561" height="1000" alt="The Chiropractor's Marketing Playbook by Nick Fischer — book cover" fetchpriority="high" decoding="async" />
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container-page">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">Inside the playbook</p>
-        <h2 class="h-display">What you'll walk away with</h2>
-      </div>
-      <ul class="takeaways">
-        {takeaways.map((t) => (
-          <li class="takeaway" data-reveal><Icon name="lucide:check-circle-2" width="20" height="20" /> {t}</li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -77,11 +72,13 @@ const takeaways = [
 
 <style>
   .book-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 4rem; }
-  .book-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; }
+  .book-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: start; }
   .book-title { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0.5rem 0 0; max-width: 16ch; }
   .book-dek { margin-top: 1.25rem; max-width: 52ch; }
   .book-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
   .book-note { color: var(--color-n-400); font-size: 0.85rem; margin-top: 1rem; }
+  .book-takeaways { margin-top: 2.25rem; }
+  .book-takeaways-title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; margin: 0 0 1rem; color: var(--color-ink); }
 
   .book-cover { display: flex; justify-content: center; }
   .book-cover img {
