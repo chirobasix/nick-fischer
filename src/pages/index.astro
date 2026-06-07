@@ -56,8 +56,8 @@ const pillars = [
 
 const stats = [
   { value: '200+', label: 'Practices served' },
+  { value: '$350K+', label: 'Ad spend managed' },
   { value: '10+', label: 'Years in marketing' },
-  { value: '1', label: 'Industry, mastered: chiropractic' },
 ];
 
 // Nick's signature framework — the talk he gives ("The 4 Pillars of Chiropractic Marketing").
@@ -76,7 +76,7 @@ const testimonials = [
   { id: 'tfL__dEZSvo', name: 'Dr. Brandin Bull', practice: 'Bull Chiropractic' },
 ];
 ---
-<PageLayout title={title} description={description} ogType="profile" jsonLd={jsonLd}>
+<PageLayout title={title} description={description} ogType="profile" jsonLd={jsonLd} preloadImage="/img/hero-nick.png">
   <!-- Hero -->
   <section class="hero">
     <div class="container-page hero-grid">
@@ -102,7 +102,9 @@ const testimonials = [
       </div>
 
       <aside class="hero-card" aria-label="At a glance">
-        <img class="hero-portrait" src="/img/nick-fischer.jpg" width="84" height="84" alt="Nick Fischer" loading="eager" decoding="async" />
+        <div class="hero-card-photo">
+          <img src="/img/hero-nick.png" width="526" height="800" alt="Nick Fischer speaking on stage" fetchpriority="high" decoding="async" />
+        </div>
         <p class="hero-card-name">Nick Fischer</p>
         <p class="hero-card-role">Founder &amp; Chiropractic Marketing Consultant</p>
         <ul class="hero-card-list">
@@ -264,16 +266,17 @@ const testimonials = [
   .hero-stats span { font-size: 0.85rem; color: var(--color-n-400); max-width: 18ch; }
 
   .hero-card {
-    background: var(--color-navy);
+    background: linear-gradient(180deg, var(--color-navy-700), var(--color-navy));
     color: #fff;
     border-radius: var(--radius-xl);
-    padding: 2rem;
+    padding: 0 2rem 2rem;
     box-shadow: var(--shadow-lg);
   }
-  .hero-portrait {
-    width: 84px; height: 84px; border-radius: 999px;
-    object-fit: cover; object-position: 50% 16%; display: block;
-    border: 2px solid var(--color-gold); margin-bottom: 1.25rem;
+  .hero-card-photo { text-align: center; }
+  .hero-card-photo img {
+    width: 100%; max-width: 320px; height: auto; display: inline-block;
+    margin-top: -1.25rem;
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.38));
   }
   .hero-card-name { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; margin: 0; }
   .hero-card-role { color: var(--color-n-300); margin: 0.25rem 0 1.25rem; font-size: 0.95rem; }
