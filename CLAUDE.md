@@ -41,8 +41,11 @@ on push to `main`). So:
 - **System-font stack** (no web fonts) — instant text paint, no swap CLS. Tokens
   in `src/styles/globals.css` (`--font-display` / `--font-body`). Swap to a
   self-hosted face via `@font-face` if a distinct display type is wanted.
-- **Pages** live in `src/pages/*.astro` (no content collections yet — add a
-  `blog`/`insights` collection later via `src/content.config.ts` if needed).
+- **Pages** live in `src/pages/*.astro`. The **`insights` blog** uses a content
+  collection (`src/content.config.ts`, Markdown in `src/content/insights/`,
+  rendered by `src/pages/insights/index.astro` + `[...slug].astro`). Post body
+  uses Tailwind's `prose` class; `draft: true` hides a post; `_`-prefixed files
+  (e.g. `_template.md`) are ignored.
 - **Layouts:** `BaseLayout.astro` (the `<head>` + JSON-LD graph + doc shell) →
   `PageLayout.astro` (Nav + `<main>` + Footer).
 

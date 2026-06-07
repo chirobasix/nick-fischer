@@ -165,6 +165,31 @@ export function buildWebPage(input: { url: string; name: string; description: st
   };
 }
 
+/** A blog post / essay — authored by the Person. */
+export function buildBlogPosting(input: {
+  url: string;
+  title: string;
+  description: string;
+  datePublished: string;
+  dateModified: string;
+  image?: string;
+}) {
+  return {
+    '@type': 'BlogPosting',
+    '@id': `${input.url}#blogposting`,
+    headline: input.title,
+    description: input.description,
+    url: input.url,
+    datePublished: input.datePublished,
+    dateModified: input.dateModified,
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
+    mainEntityOfPage: input.url,
+    inLanguage: 'en-US',
+    ...(input.image && { image: input.image }),
+  };
+}
+
 /** The book — authored by the Person. */
 export function buildBook(input?: { url?: string }) {
   return {

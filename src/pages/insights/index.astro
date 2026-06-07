@@ -1,0 +1,81 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildWebPage,
+} from '../../lib/seo';
+
+const title = withBrand('Insights');
+const description =
+  'Essays from Nick Fischer on chiropractic marketing, AI, local SEO, and building a practice that grows — thinking out loud about what actually works.';
+
+const posts = (await getCollection('insights', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildWebPage({ url: abs('/insights/'), name: title, description }),
+];
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<PageLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="container-page">
+      <p class="eyebrow">Insights</p>
+      <h1 class="h-display page-title">Notes on growing a practice.</h1>
+      <p class="lead page-dek">
+        Essays on chiropractic marketing, AI and search, local SEO, and the systems
+        behind practices that actually grow. Less theory, more what works.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      {posts.length === 0 ? (
+        <p class="empty">New essays are on the way — check back soon.</p>
+      ) : (
+        <ul class="posts">
+          {posts.map((p) => (
+            <li class="post" data-reveal>
+              <a href={`/insights/${p.id}/`}>
+                <time datetime={p.data.pubDate.toISOString()}>{fmtDate(p.data.pubDate)}</time>
+                <h2>{p.data.title}</h2>
+                <p>{p.data.description}</p>
+                <span class="post-more">Read <Icon name="lucide:arrow-right" width="16" height="16" /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2rem; }
+  .page-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; max-width: 18ch; }
+  .page-dek { margin-top: 1.25rem; max-width: 58ch; }
+
+  .empty { color: var(--color-n-500); font-size: 1.05rem; }
+
+  .posts { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; max-width: 60rem; }
+  .post a {
+    display: block; padding: 1.5rem 1.75rem;
+    background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-lg);
+    transition: border-color var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  }
+  .post a:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
+  .post time { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-accent); }
+  .post h2 { font-family: var(--font-display); font-size: 1.4rem; line-height: 1.25; margin: 0.4rem 0 0.5rem; color: var(--color-ink); }
+  .post p { color: var(--color-n-600); margin: 0; max-width: 60ch; }
+  .post-more { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-weight: 600; color: var(--color-accent); }
+  .post a:hover .post-more { gap: 0.65rem; }
+</style>

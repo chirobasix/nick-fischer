@@ -1,0 +1,81 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildBlogPosting,
+} from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('insights', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const url = abs(`/insights/${post.id}/`);
+const title = withBrand(post.data.title);
+const description = post.data.description;
+const published = post.data.pubDate;
+const modified = post.data.updatedDate ?? post.data.pubDate;
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildBlogPosting({
+    url,
+    title: post.data.title,
+    description,
+    datePublished: published.toISOString(),
+    dateModified: modified.toISOString(),
+  }),
+];
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<PageLayout title={title} description={description} ogType="article" jsonLd={jsonLd}>
+  <article class="post-page">
+    <div class="container-page post-wrap">
+      <p class="eyebrow"><a href="/insights/">Insights</a></p>
+      <h1 class="h-display post-title">{post.data.title}</h1>
+      <p class="post-meta">
+        <time datetime={published.toISOString()}>{fmtDate(published)}</time>
+        <span aria-hidden="true">·</span> Nick Fischer
+      </p>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <div class="post-foot">
+        <a href="/insights/" class="back"><Icon name="lucide:arrow-left" width="16" height="16" /> All insights</a>
+        <a href="/contact/" class="btn btn-primary">Work with Nick</a>
+      </div>
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .post-page { padding-block: 3rem 4rem; }
+  .post-wrap { max-width: 44rem; }
+  .eyebrow a { color: var(--color-accent); }
+  .post-title { font-size: clamp(2rem, 4.5vw, 3rem); margin: 0.5rem 0 0; }
+  .post-meta { color: var(--color-n-500); font-size: 0.95rem; margin: 1rem 0 2rem; display: flex; gap: 0.5rem; align-items: center; }
+
+  /* Tailwind's `prose` handles the body typography; a few brand tweaks: */
+  .prose { max-width: none; }
+  .prose :global(a) { color: var(--color-accent); }
+  .prose :global(h2) { font-family: var(--font-display); color: var(--color-ink); }
+  .prose :global(blockquote) { border-inline-start-color: var(--color-gold); color: var(--color-n-700); font-style: normal; }
+  .prose :global(strong) { color: var(--color-ink); }
+
+  .post-foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-n-200);
+  }
+  .back { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--color-accent); }
+</style>
