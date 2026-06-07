@@ -20,6 +20,7 @@ const PERSON_SAME_AS = [
   'https://www.instagram.com/nick.fisch.er',
   'https://www.facebook.com/nfischer83',
   'https://www.amazon.com/stores/Nick-Fischer/author/B09VPN4W6S',
+  'https://www.wikidata.org/wiki/Q140087615',
   'https://chirobasix.com/about/nick-fischer/',
 ];
 
