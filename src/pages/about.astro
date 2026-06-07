@@ -113,6 +113,10 @@ const credentials = [
       </aside>
     </div>
 
+    <div class="container-page about-photo" data-reveal>
+      <img src="/img/speaking-hero.jpg" width="1600" height="1068" alt="Nick Fischer presenting at a chiropractic seminar" loading="lazy" decoding="async" />
+    </div>
+
     <div class="container-page">
       <div class="timeline">
         {timeline.map((t) => (
@@ -157,6 +161,9 @@ const credentials = [
   .cred-card li { display: flex; gap: 0.6rem; align-items: start; color: var(--color-n-700); font-size: 0.95rem; }
   .cred-card [data-icon] { color: var(--color-accent); flex: none; margin-top: 1px; }
   .cred-cta { width: 100%; justify-content: center; }
+
+  .about-photo { margin-top: 3rem; }
+  .about-photo img { width: 100%; height: auto; max-height: 460px; object-fit: cover; object-position: center 26%; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); display: block; }
 
   .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 3.5rem; }
   .t-item { border-top: 3px solid var(--color-accent); padding-top: 1rem; }
