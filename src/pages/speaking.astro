@@ -11,14 +11,21 @@ const title = withBrand('Speaking — Keynotes for Chiropractic Events');
 const description =
   'Book Nick Fischer to speak. Keynotes and workshops on chiropractic practice growth, marketing systems, patient generation, and AI for chiropractors — for events nationwide.';
 
-// Real engagements only — never fabricate. Newest first.
+// Real engagements only — never fabricate.
+const SERIES = "Winner's Edge – True Chiro Success Seminar";
+const MOA = 'JW Marriott, Mall of America';
 const events: SpeakingEvent[] = [
+  { name: "Winning Google's Agentic Search", event: SERIES, startDate: '2026-06-06', location: MOA },
   {
     name: 'AI for Chiropractors in 2026: The Complete Guide + Live Demos',
-    startDate: '2026-01-17',
+    event: SERIES, startDate: '2026-01-17', location: MOA,
     videoUrl: 'https://www.youtube.com/watch?v=6ahP2srFosU',
   },
+  { name: 'Rank Higher on Google Maps', event: SERIES, startDate: '2025-01-19', location: MOA },
+  { name: 'Get More From Social Media', event: SERIES, startDate: '2024-08-10', location: MOA },
 ];
+// Always render newest-first regardless of array order.
+const sortedEvents = [...events].sort((a, b) => (b.startDate ?? '').localeCompare(a.startDate ?? ''));
 
 // Format an ISO date (YYYY-MM-DD) as "January 17, 2026" at build time.
 const fmtDate = (iso: string) =>
@@ -47,7 +54,7 @@ const jsonLd = [
   buildWebSite(),
   buildWebPage({ url: abs('/speaking/'), name: title, description }),
   buildFaqPage(faqs),
-  buildSpeakerEvents(events),
+  buildSpeakerEvents(sortedEvents),
 ].filter(Boolean) as object[];
 ---
 <PageLayout title={title} description={description} jsonLd={jsonLd}>
@@ -90,12 +97,18 @@ const jsonLd = [
           <h2 class="h-display">Recent talks &amp; appearances</h2>
         </div>
         <ul class="events">
-          {events.map((e) => (
+          {sortedEvents.map((e) => (
             <li class="event" data-reveal>
               <div class="event-main">
                 {e.startDate && <time class="event-date" datetime={e.startDate}>{fmtDate(e.startDate)}</time>}
                 <span class="event-name">{e.name}</span>
-                {e.location && <span class="event-loc"><Icon name="lucide:map-pin" width="14" height="14" /> {e.location}</span>}
+                {(e.event || e.location) && (
+                  <span class="event-meta">
+                    {e.event && <span class="event-series">{e.event}</span>}
+                    {e.event && e.location && <span aria-hidden="true">·</span>}
+                    {e.location && <span class="event-loc"><Icon name="lucide:map-pin" width="14" height="14" /> {e.location}</span>}
+                  </span>
+                )}
               </div>
               {(e.videoUrl || e.url) && (
                 <a class="event-link" href={e.videoUrl ?? e.url} target="_blank" rel="noopener">
@@ -145,10 +158,12 @@ const jsonLd = [
     flex-wrap: wrap; padding: 1.1rem 1.25rem; background: #fff;
     border: 1px solid var(--color-n-200); border-radius: var(--radius-md);
   }
-  .event-main { display: flex; flex-direction: column; gap: 0.25rem; }
+  .event-main { display: flex; flex-direction: column; gap: 0.3rem; }
   .event-date { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-accent); }
   .event-name { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--color-ink); }
-  .event-loc { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--color-n-500); font-size: 0.9rem; }
+  .event-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem; color: var(--color-n-500); font-size: 0.9rem; }
+  .event-series { font-weight: 600; color: var(--color-n-600); }
+  .event-loc { display: inline-flex; align-items: center; gap: 0.35rem; }
   .event-loc [data-icon] { color: var(--color-n-400); }
   .event-link {
     display: inline-flex; align-items: center; gap: 0.4rem; flex: none;

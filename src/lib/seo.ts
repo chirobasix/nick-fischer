@@ -217,7 +217,8 @@ export function buildPodcastSeries(input?: { url?: string }) {
  * known; omit (or pass []) and no list is emitted (never fabricate events).
  */
 export interface SpeakingEvent {
-  name: string;
+  name: string; // headline — the talk/session title
+  event?: string; // parent seminar/conference, if the talk was part of one
   url?: string; // event / registration page
   videoUrl?: string; // recording, if one exists
   startDate?: string; // ISO date
@@ -236,6 +237,7 @@ export function buildSpeakerEvents(events: SpeakingEvent[]) {
         item: {
           '@type': 'Event',
           name: e.name,
+          ...(e.event && { superEvent: { '@type': 'Event', name: e.event } }),
           ...(link && { url: link }),
           ...(e.startDate && { startDate: e.startDate }),
           ...(e.location && {
