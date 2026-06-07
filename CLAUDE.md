@@ -29,10 +29,15 @@ on push to `main`). So:
 
 ## Architecture
 
-- **Zero client JS by default.** The only inline scripts are the nav toggle
-  (pure CSS checkbox) and a tiny reveal-on-scroll IntersectionObserver in
-  `BaseLayout.astro`. No React/Partytown/analytics by default — keep it that way
+- **Zero client JS by default.** The only inline (`is:inline`) scripts are: the
+  nav toggle (pure CSS checkbox), a reveal-on-scroll IntersectionObserver in
+  `BaseLayout.astro`, a click-to-load YouTube facade on `speaking.astro` (the
+  iframe is only created on click), and a `window.print()` button on
+  `speaker-kit.astro`. No React/Partytown/analytics/bundled JS — keep it that way
   for perfect Lighthouse/CWV unless there's a strong reason.
+- **Podcast episodes** are pulled from the RSS feed at **build time**
+  (`src/lib/podcast.ts`, used by `podcast.astro`) — no client JS. A weekly
+  `schedule` cron in the deploy workflow rebuilds so new episodes appear.
 - **System-font stack** (no web fonts) — instant text paint, no swap CLS. Tokens
   in `src/styles/globals.css` (`--font-display` / `--font-body`). Swap to a
   self-hosted face via `@font-face` if a distinct display type is wanted.

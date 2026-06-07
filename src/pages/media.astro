@@ -1,0 +1,122 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildWebPage,
+} from '../lib/seo';
+
+const title = withBrand('Media & Press');
+const description =
+  'Podcasts, talks, and features with Nick Fischer — founder of CHIROBASIX and chiropractic marketing consultant. Interview, quote, and speaking requests welcome.';
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildWebPage({ url: abs('/media/'), name: title, description }),
+];
+
+// External features / guest spots / talks — real, attributable items only.
+const features = [
+  {
+    kind: 'Podcast',
+    show: 'Five Star Management',
+    date: 'Jul 2025',
+    title: 'How to Grow Your Chiropractic Practice Using AI',
+    href: 'https://myfivestar.com/podcast/how-to-grow-your-chiropractic-practice-using-ai-with-nick-fischer/',
+  },
+  {
+    kind: 'Talk · video',
+    show: "Winner's Edge – True Chiro Success Seminar",
+    date: 'Jan 2026',
+    title: 'AI for Chiropractors in 2026: The Complete Guide + Live Demos',
+    href: 'https://www.youtube.com/watch?v=6ahP2srFosU',
+  },
+];
+---
+<PageLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="page-hero">
+    <div class="container-page">
+      <p class="eyebrow">Media &amp; Press</p>
+      <h1 class="h-display page-title">Featured, on air, and on stage.</h1>
+      <p class="lead page-dek">
+        Podcasts, talks, and features with Nick Fischer. Writing about chiropractic
+        marketing, local SEO, or AI? I'm glad to provide quotes, data, or an interview.
+      </p>
+      <div class="hero-actions">
+        <a href="/contact/" class="btn btn-primary">Media inquiries <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+        <a href="/speaker-kit/" class="btn btn-ghost">Speaker &amp; press kit</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Featured</p>
+        <h2 class="h-display">Appearances &amp; talks</h2>
+      </div>
+      <ul class="features">
+        {features.map((f) => (
+          <li class="feature" data-reveal>
+            <a href={f.href} target="_blank" rel="noopener">
+              <span class="feature-kind">{f.kind}</span>
+              <span class="feature-main">
+                <span class="feature-show">{f.show} · {f.date}</span>
+                <span class="feature-title">{f.title}</span>
+              </span>
+              <Icon name="lucide:arrow-up-right" width="18" height="18" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container-page cta" data-reveal>
+      <div>
+        <h2 class="h-display">For journalists &amp; producers</h2>
+        <p class="lead">Bios, headshots, and topics are in the press kit — or reach out and I'll reply fast.</p>
+      </div>
+      <a href="/speaker-kit/" class="btn btn-primary">Open the press kit <Icon name="lucide:arrow-right" width="18" height="18" /></a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .page-hero { background: linear-gradient(180deg, var(--color-n-50), var(--color-n-0)); padding-block: 3.5rem 2.5rem; }
+  .page-title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin: 0.5rem 0 0; max-width: 18ch; }
+  .page-dek { margin-top: 1.25rem; max-width: 58ch; margin-bottom: 1.75rem; }
+  .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+  .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
+  .section-head { max-width: 40ch; margin-bottom: 2rem; }
+  .section-head h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); margin: 0.5rem 0 0; }
+
+  .features { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; max-width: 60rem; }
+  .feature a {
+    display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem 1.4rem;
+    background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-md);
+    color: var(--color-ink); transition: border-color var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out);
+  }
+  .feature a:hover { border-color: var(--color-accent); box-shadow: var(--shadow-sm); }
+  .feature-kind {
+    flex: none; align-self: flex-start; padding: 0.25rem 0.6rem; border-radius: 999px;
+    background: var(--color-accent-100); color: var(--color-accent-700);
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .feature-main { display: flex; flex-direction: column; gap: 0.2rem; }
+  .feature-show { font-size: 0.85rem; color: var(--color-n-500); }
+  .feature-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; line-height: 1.3; }
+  .feature a > [data-icon] { margin-left: auto; color: var(--color-n-400); flex: none; }
+
+  .cta { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+  .cta h2 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.5rem; }
+  .cta .lead { margin: 0; }
+
+  @media (max-width: 620px) {
+    .feature a { align-items: flex-start; flex-wrap: wrap; }
+  }
+</style>

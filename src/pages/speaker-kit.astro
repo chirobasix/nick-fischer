@@ -1,0 +1,165 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+import {
+  abs, withBrand,
+  buildPerson, buildOrganization, buildWebSite, buildWebPage,
+} from '../lib/seo';
+
+const title = withBrand('Speaker & Press Kit');
+const description =
+  'Speaker and press kit for Nick Fischer — bios, headshot, speaking topics, and booking details. Founder of CHIROBASIX, author, and host of the Chiropractic Practice Success podcast.';
+
+const jsonLd = [
+  buildPerson(),
+  buildOrganization(),
+  buildWebSite(),
+  buildWebPage({ url: abs('/speaker-kit/'), name: title, description }),
+];
+
+const shortBio =
+  'Founder of CHIROBASIX · chiropractic marketing consultant · author of The Chiropractor\'s Marketing Playbook · host of the Chiropractic Practice Success podcast.';
+const longBio =
+  'Nick Fischer is the founder of CHIROBASIX, a marketing agency built exclusively for chiropractors. A chiropractic marketing consultant with more than a decade of experience, he started out building websites for local businesses in college and went on to lead marketing teams before founding CHIROBASIX. He is the author of The Chiropractor\'s Marketing Playbook and the host of the Chiropractic Practice Success podcast, and he speaks at chiropractic events across the country. His core belief: marketing is a system, not a campaign. Nick holds a marketing degree from Grand Valley State University.';
+
+const topics = [
+  'Marketing as a System',
+  'AI for Chiropractors',
+  'Patient Generation That Lasts',
+  'The 5-Year Practice',
+];
+
+const talks = [
+  'AI for Chiropractors in 2026: The Complete Guide + Live Demos',
+  "Winning Google's Agentic Search",
+  'Rank Higher on Google Maps',
+  'Get More From Social Media',
+];
+
+const links = [
+  { label: 'nickfischer.me', href: 'https://nickfischer.me' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/nfischer83/' },
+  { label: 'X', href: 'https://x.com/nick_fisch_er' },
+  { label: 'Email', href: 'mailto:hello@chirobasix.com' },
+];
+---
+<PageLayout title={title} description={description} jsonLd={jsonLd}>
+  <article class="kit">
+    <div class="container-page">
+      <div class="kit-toolbar">
+        <p class="eyebrow">Speaker &amp; Press Kit</p>
+        <button id="print-kit" class="btn btn-ghost" type="button">
+          <Icon name="lucide:printer" width="16" height="16" /> Save as PDF
+        </button>
+      </div>
+
+      <header class="kit-head">
+        <img class="kit-photo" src="/img/nick-fischer.jpg" width="800" height="1067" alt="Nick Fischer" />
+        <div>
+          <h1 class="h-display kit-name">Nick Fischer</h1>
+          <p class="kit-role">Founder, CHIROBASIX · Chiropractic Marketing Consultant</p>
+          <p class="kit-tag">“Helping chiropractors across the country dominate online so they can help more patients.”</p>
+          <ul class="kit-links">
+            {links.map((l) => (
+              <li><a href={l.href} rel="noopener">{l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </header>
+
+      <section class="kit-block">
+        <h2>Bio — short</h2>
+        <p>{shortBio}</p>
+        <h2>Bio — long</h2>
+        <p>{longBio}</p>
+      </section>
+
+      <div class="kit-cols">
+        <section class="kit-block">
+          <h2>Speaking topics</h2>
+          <ul class="kit-list">
+            {topics.map((t) => <li><Icon name="lucide:check" width="16" height="16" /> {t}</li>)}
+          </ul>
+        </section>
+        <section class="kit-block">
+          <h2>Signature talks</h2>
+          <ul class="kit-list">
+            {talks.map((t) => <li><Icon name="lucide:mic" width="16" height="16" /> {t}</li>)}
+          </ul>
+        </section>
+      </div>
+
+      <section class="kit-block kit-credentials">
+        <h2>At a glance</h2>
+        <ul class="kit-facts">
+          <li><strong>Role</strong> Founder &amp; Chiropractic Marketing Consultant</li>
+          <li><strong>Author</strong> The Chiropractor's Marketing Playbook</li>
+          <li><strong>Host</strong> Chiropractic Practice Success podcast</li>
+          <li><strong>Education</strong> Marketing degree, Grand Valley State University</li>
+          <li><strong>Focus</strong> Chiropractic marketing, local SEO, AI / answer-engine optimization</li>
+        </ul>
+      </section>
+
+      <section class="kit-block kit-photos">
+        <h2>Photos</h2>
+        <div class="kit-gallery">
+          <img src="/img/speaking-a.jpg" width="1400" height="935" alt="Nick Fischer speaking on stage" loading="lazy" />
+          <img src="/img/speaking-b.jpg" width="1400" height="935" alt="Nick Fischer presenting" loading="lazy" />
+        </div>
+        <p class="kit-note">High-resolution headshots and stage photos available on request — <a href="/contact/">get in touch</a>.</p>
+      </section>
+    </div>
+  </article>
+
+  <script is:inline>
+    var pk = document.getElementById('print-kit');
+    if (pk) pk.addEventListener('click', function () { window.print(); });
+  </script>
+</PageLayout>
+
+<style>
+  .kit { padding-block: 2.5rem 4rem; }
+  .kit-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+
+  .kit-head { display: grid; grid-template-columns: 160px 1fr; gap: 2rem; align-items: start; padding-bottom: 2rem; border-bottom: 1px solid var(--color-n-200); }
+  .kit-photo { width: 160px; height: 200px; object-fit: cover; object-position: 50% 16%; border-radius: var(--radius-lg); border: 3px solid var(--color-gold); }
+  .kit-name { font-size: clamp(2rem, 4vw, 2.8rem); margin: 0; }
+  .kit-role { color: var(--color-accent); font-weight: 700; margin: 0.35rem 0 0; }
+  .kit-tag { color: var(--color-n-600); font-style: italic; margin: 0.85rem 0 0; max-width: 48ch; }
+  .kit-links { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; padding: 0; margin: 1rem 0 0; }
+  .kit-links a { color: var(--color-accent); font-weight: 600; font-size: 0.95rem; }
+
+  .kit-block { margin-top: 2rem; max-width: 70ch; }
+  .kit-block h2 { font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.6rem; color: var(--color-ink); }
+  .kit-block h2 + p { margin: 0 0 1.25rem; color: var(--color-n-700); }
+  .kit-block p { color: var(--color-n-700); }
+
+  .kit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .kit-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
+  .kit-list li { display: flex; gap: 0.6rem; align-items: start; color: var(--color-n-700); }
+  .kit-list [data-icon] { color: var(--color-accent); flex: none; margin-top: 3px; }
+
+  .kit-facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
+  .kit-facts li { color: var(--color-n-700); }
+  .kit-facts strong { display: inline-block; min-width: 7.5rem; color: var(--color-ink); }
+
+  .kit-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60rem; }
+  .kit-gallery img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+  .kit-note { font-size: 0.9rem; color: var(--color-n-500); margin-top: 1rem; }
+  .kit-note a { color: var(--color-accent); }
+
+  @media (max-width: 720px) {
+    .kit-head { grid-template-columns: 1fr; }
+    .kit-cols { grid-template-columns: 1fr; }
+  }
+
+  /* Print: clean one-sheet — hide site chrome + toolbar, tighten spacing. */
+  @media print {
+    .kit { padding: 0; }
+    .kit-toolbar, .kit-photos { display: none; }
+    .kit-head { border-color: #ccc; }
+    .kit-block { margin-top: 1rem; max-width: none; }
+    a { color: #000; text-decoration: none; }
+    :global(.site-header), :global(.site-footer) { display: none !important; }
+  }
+</style>

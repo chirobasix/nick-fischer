@@ -13,6 +13,8 @@ const SEGMENT_LABELS: Record<string, string> = {
   speaking: 'Speaking',
   podcast: 'Podcast',
   book: 'Book',
+  media: 'Media',
+  'speaker-kit': 'Press Kit',
   contact: 'Contact',
 };
 
