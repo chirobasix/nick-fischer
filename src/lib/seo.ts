@@ -22,6 +22,7 @@ const PERSON_SAME_AS = [
   'https://www.amazon.com/stores/Nick-Fischer/author/B09VPN4W6S',
   'https://www.wikidata.org/wiki/Q140087615',
   'https://www.crunchbase.com/person/nick-fischer-c93b',
+  'https://www.tiktok.com/@nick.fisch.er',
   'https://chirobasix.com/about/nick-fischer/',
 ];
 
@@ -113,6 +114,7 @@ export function buildOrganization() {
     founder: { '@id': PERSON_ID },
     sameAs: [
       'https://www.youtube.com/@CHIROBASIX',
+      'https://www.tiktok.com/@chirobasix',
       'https://www.wikidata.org/wiki/Q140087640',
       'https://www.crunchbase.com/organization/chirobasix',
     ],
