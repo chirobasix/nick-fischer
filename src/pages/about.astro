@@ -102,7 +102,7 @@ const credentials = [
       </div>
 
       <aside class="cred-card">
-        <img class="cred-photo" src="/img/nick-fischer.jpg" width="96" height="96" alt="Nick Fischer" loading="lazy" decoding="async" />
+        <img class="cred-portrait" src="/img/about-portrait.jpg" width="800" height="1035" alt="Nick Fischer" loading="lazy" decoding="async" />
         <h3>Credentials</h3>
         <ul>
           {credentials.map((c) => (
@@ -155,7 +155,7 @@ const credentials = [
   .prose-block a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
 
   .cred-card { background: var(--color-n-50); border: 1px solid var(--color-n-200); border-radius: var(--radius-lg); padding: 1.75rem; position: sticky; top: 88px; }
-  .cred-photo { width: 96px; height: 96px; border-radius: 999px; object-fit: cover; object-position: 50% 16%; border: 3px solid var(--color-gold); display: block; margin: 0 0 1.25rem; }
+  .cred-portrait { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; border-radius: var(--radius-md); display: block; margin: 0 0 1.5rem; }
   .cred-card h3 { font-family: var(--font-display); margin: 0 0 1rem; font-size: 1.15rem; }
   .cred-card ul { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; gap: 0.85rem; }
   .cred-card li { display: flex; gap: 0.6rem; align-items: start; color: var(--color-n-700); font-size: 0.95rem; }
