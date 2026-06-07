@@ -55,9 +55,9 @@ const pillars = [
 ];
 
 const stats = [
+  { value: '200+', label: 'Practices served' },
   { value: '10+', label: 'Years in marketing' },
   { value: '1', label: 'Industry, mastered: chiropractic' },
-  { value: '∞', label: 'Patients helped downstream' },
 ];
 
 // Nick's signature framework — the talk he gives ("The 4 Pillars of Chiropractic Marketing").
@@ -115,6 +115,15 @@ const testimonials = [
     </div>
   </section>
 
+  <!-- Mission -->
+  <section class="mission-band">
+    <div class="container-page" data-reveal>
+      <p class="mission-eyebrow">The mission</p>
+      <p class="mission-text">Help <strong>1 million people</strong> get out of pain — naturally.</p>
+      <p class="mission-sub">By connecting patients with great chiropractors — and helping those practices reach more of the people who need them.</p>
+    </div>
+  </section>
+
   <!-- Pillars -->
   <section class="section">
     <div class="container-page">
@@ -142,8 +151,8 @@ const testimonials = [
     <div class="container-page">
       <div class="section-head" data-reveal>
         <p class="eyebrow">My framework</p>
-        <h2 class="h-display">The 4 Pillars of Chiropractic Marketing</h2>
-        <p class="lead">The system I teach and run for practices. Four parts that only compound when they work together.</p>
+        <h2 class="h-display">The Digital Dominance System</h2>
+        <p class="lead">Patients don't choose the best chiropractor — they choose the one they see everywhere. My Digital Dominance System makes you that practice: omnipresent across every place a future patient looks, so you become the obvious, top-of-mind choice.</p>
       </div>
       <div class="method-grid">
         {methodPillars.map((m) => (
@@ -154,6 +163,7 @@ const testimonials = [
           </article>
         ))}
       </div>
+      <p class="method-note">Those four are the digital core — and the system extends across email, AI-search optimization, workshops, and referrals. A hub-and-spoke setup where every channel feeds new patients to your door, so you're not betting the practice on any single one.</p>
       <a href="https://www.youtube.com/watch?v=VmSEsOBoHSo" class="method-watch" target="_blank" rel="noopener">Watch the talk <Icon name="lucide:arrow-up-right" width="16" height="16" /></a>
     </div>
   </section>
@@ -308,8 +318,15 @@ const testimonials = [
   .method-num { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: var(--color-gold); }
   .method h3 { font-family: var(--font-display); font-size: 1.2rem; margin: 0.5rem 0 0.4rem; }
   .method p { color: var(--color-n-600); margin: 0; font-size: 0.95rem; }
-  .method-watch { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.75rem; font-weight: 600; color: var(--color-accent); }
+  .method-note { color: var(--color-n-600); font-size: 0.95rem; max-width: 62ch; margin: 1.5rem 0 0; }
+  .method-watch { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.25rem; font-weight: 600; color: var(--color-accent); }
   .method-watch:hover { gap: 0.65rem; }
+
+  .mission-band { background: var(--color-navy); color: #fff; padding-block: 3rem; }
+  .mission-eyebrow { color: var(--color-gold); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem; margin: 0; }
+  .mission-text { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.2; margin: 0.75rem 0 0; max-width: 22ch; text-wrap: balance; }
+  .mission-text strong { color: var(--color-gold); }
+  .mission-sub { color: var(--color-n-200); margin: 1rem 0 0; max-width: 54ch; font-size: 1.0625rem; }
 
   .testimonials { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
   .testimonial-by { margin: 0.75rem 0 0; display: flex; flex-direction: column; }
