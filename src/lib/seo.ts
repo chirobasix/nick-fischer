@@ -110,7 +110,10 @@ export function buildOrganization() {
     description:
       'A marketing agency built exclusively for chiropractors, helping practices grow with proven patient-generation systems.',
     founder: { '@id': PERSON_ID },
-    sameAs: ['https://www.youtube.com/@CHIROBASIX'],
+    sameAs: [
+      'https://www.youtube.com/@CHIROBASIX',
+      'https://www.wikidata.org/wiki/Q140087640',
+    ],
   };
 }
 
@@ -172,7 +175,10 @@ export function buildBook(input?: { url?: string }) {
     isbn: '979-8419806924',
     bookFormat: 'https://schema.org/Paperback',
     url: input?.url ?? abs('/book/'),
-    sameAs: 'https://www.amazon.com/dp/B09VFRYBT7',
+    sameAs: [
+      'https://www.amazon.com/dp/B09VFRYBT7',
+      'https://www.wikidata.org/wiki/Q140087643',
+    ],
   };
 }
 
@@ -199,6 +205,7 @@ export function buildPodcastSeries(input?: { url?: string }) {
       'https://podcasts.apple.com/us/podcast/chiropractic-practice-success-chirobasix/id1578322060',
       'https://open.spotify.com/show/0iUxEZ3Sajsv8csLsHAD1x',
       'https://music.amazon.com/podcasts/chiropractic-practice-success',
+      'https://www.wikidata.org/wiki/Q140087648',
     ],
   };
 }
