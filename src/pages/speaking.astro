@@ -11,8 +11,22 @@ const title = withBrand('Speaking — Keynotes for Chiropractic Events');
 const description =
   'Book Nick Fischer to speak. Keynotes and workshops on chiropractic practice growth, marketing systems, patient generation, and AI for chiropractors — for events nationwide.';
 
-// Real engagements only — leave empty until confirmed (never fabricate events).
-const events: SpeakingEvent[] = [];
+// Real engagements only — never fabricate. Newest first.
+const events: SpeakingEvent[] = [
+  {
+    name: 'AI for Chiropractors in 2026: The Complete Guide + Live Demos',
+    startDate: '2026-01-17',
+    videoUrl: 'https://www.youtube.com/watch?v=6ahP2srFosU',
+  },
+];
+
+// Format an ISO date (YYYY-MM-DD) as "January 17, 2026" at build time.
+const fmtDate = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
 const topics = [
   { icon: 'lucide:layout-grid', title: 'Marketing as a System', body: 'Why campaigns fail and systems compound — the framework that turns a practice into a patient magnet.' },
@@ -71,13 +85,23 @@ const jsonLd = [
   {events.length > 0 && (
     <section class="section section-alt">
       <div class="container-page">
-        <h2 class="h-display">Where to catch me next</h2>
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Talks</p>
+          <h2 class="h-display">Recent talks &amp; appearances</h2>
+        </div>
         <ul class="events">
           {events.map((e) => (
-            <li>
-              <strong>{e.name}</strong>
-              {e.location && <span>{e.location}</span>}
-              {e.startDate && <time datetime={e.startDate}>{e.startDate}</time>}
+            <li class="event" data-reveal>
+              <div class="event-main">
+                {e.startDate && <time class="event-date" datetime={e.startDate}>{fmtDate(e.startDate)}</time>}
+                <span class="event-name">{e.name}</span>
+                {e.location && <span class="event-loc"><Icon name="lucide:map-pin" width="14" height="14" /> {e.location}</span>}
+              </div>
+              {(e.videoUrl || e.url) && (
+                <a class="event-link" href={e.videoUrl ?? e.url} target="_blank" rel="noopener">
+                  {e.videoUrl ? 'Watch the talk' : 'Event details'} <Icon name="lucide:arrow-up-right" width="16" height="16" />
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -115,10 +139,22 @@ const jsonLd = [
   .topic h3 { font-family: var(--font-display); font-size: 1.2rem; margin: 0 0 0.5rem; }
   .topic p { color: var(--color-n-600); margin: 0; }
 
-  .events { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.75rem; }
-  .events li { display: flex; gap: 1rem; align-items: baseline; padding: 1rem 1.25rem; background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-md); }
-  .events strong { font-family: var(--font-display); }
-  .events span, .events time { color: var(--color-n-500); font-size: 0.9rem; }
+  .events { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.85rem; }
+  .event {
+    display: flex; align-items: center; justify-content: space-between; gap: 1.25rem;
+    flex-wrap: wrap; padding: 1.1rem 1.25rem; background: #fff;
+    border: 1px solid var(--color-n-200); border-radius: var(--radius-md);
+  }
+  .event-main { display: flex; flex-direction: column; gap: 0.25rem; }
+  .event-date { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-accent); }
+  .event-name { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--color-ink); }
+  .event-loc { display: inline-flex; align-items: center; gap: 0.35rem; color: var(--color-n-500); font-size: 0.9rem; }
+  .event-loc [data-icon] { color: var(--color-n-400); }
+  .event-link {
+    display: inline-flex; align-items: center; gap: 0.4rem; flex: none;
+    font-weight: 600; color: var(--color-accent);
+  }
+  .event-link:hover { gap: 0.6rem; }
 
   .faq { max-width: 60rem; }
   .faq h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0 0 1.5rem; }

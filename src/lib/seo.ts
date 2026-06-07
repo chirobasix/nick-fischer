@@ -114,6 +114,7 @@ export function buildOrganization() {
     sameAs: [
       'https://www.youtube.com/@CHIROBASIX',
       'https://www.wikidata.org/wiki/Q140087640',
+      'https://www.crunchbase.com/organization/chirobasix',
     ],
   };
 }
@@ -217,7 +218,8 @@ export function buildPodcastSeries(input?: { url?: string }) {
  */
 export interface SpeakingEvent {
   name: string;
-  url?: string;
+  url?: string; // event / registration page
+  videoUrl?: string; // recording, if one exists
   startDate?: string; // ISO date
   location?: string;
 }
@@ -226,21 +228,23 @@ export function buildSpeakerEvents(events: SpeakingEvent[]) {
   return {
     '@type': 'ItemList',
     name: 'Speaking engagements — Nick Fischer',
-    itemListElement: events.map((e, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      item: {
-        '@type': 'Event',
-        name: e.name,
-        ...(e.url && { url: e.url }),
-        ...(e.startDate && { startDate: e.startDate }),
-        ...(e.location && {
-          location: { '@type': 'Place', name: e.location },
-        }),
-        performer: { '@id': PERSON_ID },
-        organizer: { '@id': PERSON_ID },
-      },
-    })),
+    itemListElement: events.map((e, i) => {
+      const link = e.url ?? e.videoUrl;
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Event',
+          name: e.name,
+          ...(link && { url: link }),
+          ...(e.startDate && { startDate: e.startDate }),
+          ...(e.location && {
+            location: { '@type': 'Place', name: e.location },
+          }),
+          performer: { '@id': PERSON_ID },
+        },
+      };
+    }),
   };
 }
 
