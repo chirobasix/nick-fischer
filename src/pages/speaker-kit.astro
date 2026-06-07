@@ -102,11 +102,23 @@ const links = [
 
       <section class="kit-block kit-photos">
         <h2>Photos</h2>
-        <div class="kit-gallery">
-          <img src="/img/speaking-a.jpg" width="1400" height="935" alt="Nick Fischer speaking on stage" loading="lazy" />
-          <img src="/img/speaking-b.jpg" width="1400" height="935" alt="Nick Fischer presenting" loading="lazy" />
+
+        <h3 class="kit-subhead">Headshots</h3>
+        <div class="kit-gallery kit-gallery-portrait">
+          <img src="/img/nick-fischer.jpg" width="800" height="1067" alt="Nick Fischer headshot" loading="lazy" />
+          <img src="/img/about-portrait.jpg" width="800" height="1035" alt="Nick Fischer studio headshot" loading="lazy" />
         </div>
-        <p class="kit-note">High-resolution headshots and stage photos available on request — <a href="/contact/">get in touch</a>.</p>
+
+        <h3 class="kit-subhead">On stage</h3>
+        <div class="kit-gallery">
+          <img src="/img/speaking-keynote.jpg" width="1400" height="788" alt="Nick Fischer speaking on stage" loading="lazy" />
+          <img src="/img/speaking-a.jpg" width="1400" height="935" alt="Nick Fischer presenting at a chiropractic seminar" loading="lazy" />
+          <img src="/img/speaking-b.jpg" width="1400" height="935" alt="Nick Fischer on stage with a microphone" loading="lazy" />
+          <img src="/img/speaking-c.jpg" width="1400" height="932" alt="Nick Fischer delivering a keynote talk" loading="lazy" />
+          <img src="/img/speaking-hero.jpg" width="1600" height="1068" alt="Nick Fischer speaking to an audience" loading="lazy" />
+        </div>
+
+        <p class="kit-note">High-resolution originals available on request — <a href="/contact/">get in touch</a>.</p>
       </section>
     </div>
   </article>
@@ -143,8 +155,12 @@ const links = [
   .kit-facts li { color: var(--color-n-700); }
   .kit-facts strong { display: inline-block; min-width: 7.5rem; color: var(--color-ink); }
 
-  .kit-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 60rem; }
-  .kit-gallery img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+  .kit-subhead { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-n-500); margin: 1.5rem 0 0.75rem; }
+  .kit-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 60rem; }
+  .kit-gallery img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow-md); display: block; }
+  .kit-gallery-portrait { grid-template-columns: repeat(2, 190px); }
+  .kit-gallery-portrait img { aspect-ratio: 4 / 5; object-position: center 16%; }
+  @media (max-width: 640px) { .kit-gallery { grid-template-columns: repeat(2, 1fr); } }
   .kit-note { font-size: 0.9rem; color: var(--color-n-500); margin-top: 1rem; }
   .kit-note a { color: var(--color-accent); }
 
