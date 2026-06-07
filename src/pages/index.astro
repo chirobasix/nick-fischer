@@ -59,6 +59,22 @@ const stats = [
   { value: '1', label: 'Industry, mastered: chiropractic' },
   { value: '∞', label: 'Patients helped downstream' },
 ];
+
+// Nick's signature framework — the talk he gives ("The 4 Pillars of Chiropractic Marketing").
+const methodPillars = [
+  { n: '01', title: 'Website', body: 'A site built to turn visitors into booked new patients — your conversion foundation.' },
+  { n: '02', title: 'Google', body: 'Local SEO, your Google Business Profile, and reviews so patients find you on the map.' },
+  { n: '03', title: 'Social', body: 'Paid and organic social that keeps the new-patient pipeline full month after month.' },
+  { n: '04', title: 'CRM', body: 'Automation and follow-up so no lead slips through — and patients keep coming back.' },
+];
+
+// Real client video testimonials (CHIROBASIX YouTube).
+const testimonials = [
+  { id: 'YS2esZuG5Y8', name: 'Mathew Gorenstein', practice: 'Living Wellness Chiropractic' },
+  { id: '3hlAx8PpMXs', name: 'Dr. Kyle Padilla', practice: 'Imago Dei Chiropractic' },
+  { id: 'DeKHWkQ03lI', name: 'Dr. Seth Wilde', practice: 'Centric Chiropractic' },
+  { id: 'tfL__dEZSvo', name: 'Dr. Brandin Bull', practice: 'Bull Chiropractic' },
+];
 ---
 <PageLayout title={title} description={description} ogType="profile" jsonLd={jsonLd}>
   <!-- Hero -->
@@ -121,6 +137,27 @@ const stats = [
     </div>
   </section>
 
+  <!-- Signature framework -->
+  <section class="section section-alt">
+    <div class="container-page">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">My framework</p>
+        <h2 class="h-display">The 4 Pillars of Chiropractic Marketing</h2>
+        <p class="lead">The system I teach and run for practices. Four parts that only compound when they work together.</p>
+      </div>
+      <div class="method-grid">
+        {methodPillars.map((m) => (
+          <article class="method" data-reveal>
+            <span class="method-num">{m.n}</span>
+            <h3>{m.title}</h3>
+            <p>{m.body}</p>
+          </article>
+        ))}
+      </div>
+      <a href="https://www.youtube.com/watch?v=VmSEsOBoHSo" class="method-watch" target="_blank" rel="noopener">Watch the talk <Icon name="lucide:arrow-up-right" width="16" height="16" /></a>
+    </div>
+  </section>
+
   <!-- Philosophy / quote -->
   <section class="quote-band">
     <div class="container-page quote-grid" data-reveal>
@@ -138,8 +175,31 @@ const stats = [
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- Testimonials -->
   <section class="section">
+    <div class="container-page">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Proof</p>
+        <h2 class="h-display">What chiropractors say</h2>
+      </div>
+      <ul class="testimonials">
+        {testimonials.map((t) => (
+          <li class="testimonial" data-reveal>
+            <div class="video" data-yt={t.id}>
+              <button class="video-btn" type="button" aria-label={`Play testimonial from ${t.name}`}>
+                <img src={`https://i.ytimg.com/vi/${t.id}/hqdefault.jpg`} width="480" height="360" alt={`${t.name} — ${t.practice}`} loading="lazy" decoding="async" />
+                <span class="video-play" aria-hidden="true"><Icon name="lucide:play" width="24" height="24" /></span>
+              </button>
+            </div>
+            <p class="testimonial-by"><strong>{t.name}</strong><span>{t.practice}</span></p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section-alt">
     <div class="container-page cta" data-reveal>
       <div>
         <h2 class="h-display">Let's build your growth system.</h2>
@@ -148,6 +208,24 @@ const stats = [
       <a href="/contact/" class="btn btn-primary">Get in touch <Icon name="lucide:arrow-right" width="18" height="18" /></a>
     </div>
   </section>
+
+  {/* Click-to-load facade for testimonial videos — no iframe until clicked. */}
+  <script is:inline>
+    document.querySelectorAll('.video[data-yt]').forEach(function (el) {
+      var btn = el.querySelector('.video-btn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var ifr = document.createElement('iframe');
+        ifr.src = 'https://www.youtube-nocookie.com/embed/' + el.getAttribute('data-yt') + '?autoplay=1';
+        ifr.title = 'Video testimonial';
+        ifr.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        ifr.allowFullscreen = true;
+        ifr.loading = 'lazy';
+        el.innerHTML = '';
+        el.appendChild(ifr);
+      });
+    });
+  </script>
 </PageLayout>
 
 <style>
@@ -221,6 +299,32 @@ const stats = [
   }
   .quote-by { margin-top: 1.25rem; color: var(--color-n-500); font-weight: 600; }
   @media (max-width: 860px) { .quote-grid { grid-template-columns: 1fr; } }
+
+  .section-alt { background: var(--color-n-50); border-block: 1px solid var(--color-n-100); }
+  .section-head .lead { margin-top: 0.75rem; }
+
+  .method-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .method { background: #fff; border: 1px solid var(--color-n-200); border-radius: var(--radius-lg); padding: 1.5rem; }
+  .method-num { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; color: var(--color-gold); }
+  .method h3 { font-family: var(--font-display); font-size: 1.2rem; margin: 0.5rem 0 0.4rem; }
+  .method p { color: var(--color-n-600); margin: 0; font-size: 0.95rem; }
+  .method-watch { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.75rem; font-weight: 600; color: var(--color-accent); }
+  .method-watch:hover { gap: 0.65rem; }
+
+  .testimonials { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  .testimonial-by { margin: 0.75rem 0 0; display: flex; flex-direction: column; }
+  .testimonial-by strong { font-family: var(--font-display); font-size: 1rem; color: var(--color-ink); }
+  .testimonial-by span { color: var(--color-n-500); font-size: 0.85rem; }
+
+  .video { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); background: #000; }
+  .video-btn { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; cursor: pointer; background: none; display: block; }
+  .video-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-play { position: absolute; inset: 0; margin: auto; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 999px; background: rgba(20,37,59,.85); color: #fff; transition: transform var(--duration-base) var(--ease-out), background var(--duration-base); }
+  .video-btn:hover .video-play { transform: scale(1.08); background: var(--color-accent); }
+  .video :global(iframe) { width: 100%; height: 100%; border: 0; display: block; }
+
+  @media (max-width: 860px) { .method-grid, .testimonials { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .method-grid, .testimonials { grid-template-columns: 1fr; } }
 
   .cta {
     display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
