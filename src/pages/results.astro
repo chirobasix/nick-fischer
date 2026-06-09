@@ -130,7 +130,7 @@ const videoNodes = cases.map((c) => ({
   name: c.ytTitle,
   description: c.result,
   thumbnailUrl: `https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`,
-  uploadDate: c.date,
+  uploadDate: `${c.date}T12:00:00Z`, // full ISO-8601 w/ timezone — Google flags bare dates
   embedUrl: `https://www.youtube-nocookie.com/embed/${c.id}`,
   contentUrl: `https://www.youtube.com/watch?v=${c.id}`,
   publisher: { '@id': ORG_ID },

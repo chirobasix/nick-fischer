@@ -265,7 +265,10 @@ export interface SpeakingEvent {
   url?: string; // event / registration page
   videoUrl?: string; // recording, if one exists
   startDate?: string; // ISO date
+  endDate?: string; // ISO date — defaults to startDate (single-day talk)
   location?: string;
+  address?: string; // city/region for the venue Place
+  image?: string; // representative image; defaults to a stage photo
 }
 export function buildSpeakerEvents(events: SpeakingEvent[]) {
   if (!events.length) return null;
@@ -274,18 +277,30 @@ export function buildSpeakerEvents(events: SpeakingEvent[]) {
     name: 'Speaking engagements — Nick Fischer',
     itemListElement: events.map((e, i) => {
       const link = e.url ?? e.videoUrl;
+      const end = e.endDate ?? e.startDate; // single-day talks end the day they start
       return {
         '@type': 'ListItem',
         position: i + 1,
+        // Note: the parent seminar is modeled as `organizer` (an Organization),
+        // NOT `superEvent`. A bare superEvent Event has no startDate/location and
+        // gets flagged by Google as an invalid Event.
         item: {
           '@type': 'Event',
           name: e.name,
-          ...(e.event && { superEvent: { '@type': 'Event', name: e.event } }),
+          eventStatus: 'https://schema.org/EventScheduled',
+          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
           ...(link && { url: link }),
           ...(e.startDate && { startDate: e.startDate }),
+          ...(end && { endDate: end }),
           ...(e.location && {
-            location: { '@type': 'Place', name: e.location },
+            location: {
+              '@type': 'Place',
+              name: e.location,
+              ...(e.address && { address: e.address }),
+            },
           }),
+          ...(e.event && { organizer: { '@type': 'Organization', name: e.event } }),
+          image: abs(e.image ?? '/img/speaking-keynote.jpg'),
           performer: { '@id': PERSON_ID },
         },
       };

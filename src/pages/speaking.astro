@@ -14,24 +14,25 @@ const description =
 // Real engagements only — never fabricate.
 const SERIES = "Winner's Edge – True Chiro Success Seminar";
 const MOA = 'JW Marriott, Mall of America';
+const MOA_ADDR = 'Bloomington, MN';
 const events: SpeakingEvent[] = [
   {
     name: "Winning Google's Agentic Search",
-    event: SERIES, startDate: '2026-06-06', location: MOA,
+    event: SERIES, startDate: '2026-06-06', location: MOA, address: MOA_ADDR,
     videoUrl: 'https://www.youtube.com/watch?v=BXibFkB2tXI',
   },
   {
     name: 'AI for Chiropractors in 2026: The Complete Guide + Live Demos',
-    event: SERIES, startDate: '2026-01-17', location: MOA,
+    event: SERIES, startDate: '2026-01-17', location: MOA, address: MOA_ADDR,
     videoUrl: 'https://www.youtube.com/watch?v=6ahP2srFosU',
   },
   {
     name: '4 Pillars of Digital Marketing for Chiropractors',
-    event: 'Five Star Management Seminar', startDate: '2025-11-15', location: 'Hyatt Regency – Orlando, FL',
+    event: 'Five Star Management Seminar', startDate: '2025-11-15', location: 'Hyatt Regency – Orlando, FL', address: 'Orlando, FL',
     videoUrl: 'https://www.youtube.com/watch?v=VmSEsOBoHSo',
   },
-  { name: 'Rank Higher on Google Maps', event: SERIES, startDate: '2025-01-19', location: MOA },
-  { name: 'Get More From Social Media', event: SERIES, startDate: '2024-08-10', location: MOA },
+  { name: 'Rank Higher on Google Maps', event: SERIES, startDate: '2025-01-19', location: MOA, address: MOA_ADDR },
+  { name: 'Get More From Social Media', event: SERIES, startDate: '2024-08-10', location: MOA, address: MOA_ADDR },
 ];
 // Always render newest-first regardless of array order.
 const sortedEvents = [...events].sort((a, b) => (b.startDate ?? '').localeCompare(a.startDate ?? ''));
@@ -73,7 +74,7 @@ const jsonLd = [
     description:
       "Nick Fischer's talk on using AI and answer-engine optimization to grow a chiropractic practice — frameworks plus live demos.",
     thumbnailUrl: `https://i.ytimg.com/vi/${TALK_ID}/maxresdefault.jpg`,
-    uploadDate: '2026-01-17',
+    uploadDate: '2026-01-17T12:00:00Z',
     embedUrl: `https://www.youtube-nocookie.com/embed/${TALK_ID}`,
     contentUrl: `https://www.youtube.com/watch?v=${TALK_ID}`,
     author: { '@id': PERSON_ID },
